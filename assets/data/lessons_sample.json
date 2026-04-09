@@ -1,0 +1,36 @@
+{
+  "levels": [
+    {
+      "id": "lv1",
+      "title": "Programming Basics",
+      "lessons": [
+        {
+          "id": "l1_1",
+          "title": "What Is Programming?",
+          "shortExplanation": "Programming gives instructions to computers."
+        },
+        {
+          "id": "l1_2",
+          "title": "Logic and Algorithms",
+          "shortExplanation": "Algorithms are ordered problem-solving steps."
+        }
+      ]
+    },
+    {
+      "id": "lv2",
+      "title": "HTML Fundamentals",
+      "lessons": [
+        {
+          "id": "l2_1",
+          "title": "HTML Structure and Tags",
+          "shortExplanation": "HTML defines page structure."
+        },
+        {
+          "id": "l2_2",
+          "title": "Links, Images, Lists, Forms",
+          "shortExplanation": "Core HTML elements make pages useful."
+        }
+      ]
+    }
+  ]
+}

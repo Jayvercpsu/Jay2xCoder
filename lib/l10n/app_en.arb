@@ -1,0 +1,350 @@
+﻿{
+  "@@locale": "en",
+  "appName": "Jay2xCoder",
+  "appSubtitle": "Learn Programming Step by Step",
+
+  "navHome": "Home",
+  "navRoadmap": "Roadmap",
+  "navIde": "IDE",
+  "navProgress": "Progress",
+  "navProfile": "Profile",
+  "navSettings": "Settings",
+
+  "commonContinue": "Continue",
+  "commonSkip": "Skip",
+  "commonCancel": "Cancel",
+  "commonSave": "Save",
+  "commonReset": "Reset",
+  "commonSearch": "Search",
+
+  "homeWelcome": "Welcome, {name}",
+  "@homeWelcome": {
+    "placeholders": {
+      "name": {}
+    }
+  },
+  "homeSubtitle": "Keep climbing your coding journey.",
+  "homeCurrentLevel": "Current Level",
+  "homeLevelTitle": "Level {level}: {title}",
+  "@homeLevelTitle": {
+    "placeholders": {
+      "level": {"type": "int"},
+      "title": {}
+    }
+  },
+  "homeOverallProgress": "Overall progress {percent}%",
+  "@homeOverallProgress": {
+    "placeholders": {
+      "percent": {"type": "int"}
+    }
+  },
+  "homeViewRoadmap": "View Roadmap",
+  "homeContinueLearning": "Continue Learning",
+  "homeRoadmapPreview": "Roadmap Preview",
+  "homeDailyMotivation": "Daily Motivation",
+  "homeRecentBadge": "Recent Badge",
+  "homeNoBadgeYet": "Complete your first lesson to earn a badge.",
+  "homeBookmarkedLessons": "Bookmarked Lessons",
+  "homeBookmarkedCount": "{count} saved lesson(s)",
+  "@homeBookmarkedCount": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+
+  "onboardingTitle1": "Welcome to Jay2xCoder",
+  "onboardingMessage1": "A guided coding journey built for incoming IT freshmen.",
+  "onboardingTitle2": "Learn Step by Step",
+  "onboardingMessage2": "Start from basics, pass quizzes, and unlock higher levels gradually.",
+  "onboardingTitle3": "Practice the Essentials",
+  "onboardingMessage3": "Use lightweight activities: arrange code, find bugs, and match concepts.",
+  "onboardingTitle4": "Stay Focused",
+  "onboardingMessage4": "Track XP, badges, and progress with an offline-friendly learning dashboard.",
+  "onboardingStartLearning": "Start Learning",
+
+  "roadmapTitle": "Learning Roadmap",
+  "roadmapSubtitle": "Unlock each level step by step until expert path.",
+  "roadmapSearchHint": "Search lessons or levels",
+  "roadmapFavoritesOnly": "Favorites only",
+  "roadmapNoResultsTitle": "No matching lessons",
+  "roadmapNoResultsMessage": "Try a different keyword or clear filters.",
+  "roadmapLockedSnack": "Complete current lesson and quiz first.",
+
+  "lessonTitle": "Lesson",
+  "lessonAppBar": "Level {level} Lesson {lesson}",
+  "@lessonAppBar": {
+    "placeholders": {
+      "level": {"type": "int"},
+      "lesson": {"type": "int"}
+    }
+  },
+  "lessonMissingTitle": "Lesson Missing",
+  "lessonMissingMessage": "This lesson could not be found in local mock data.",
+  "lessonLockedTitle": "Lesson Locked",
+  "lessonLockedMessage": "Complete the previous lesson and pass its quiz first.",
+  "lessonExplanation": "Explanation",
+  "lessonSimpleExample": "Simple Example",
+  "lessonKeyTakeaways": "Key Takeaways",
+  "lessonMiniActivity": "Mini Activity",
+  "lessonCompletedMessage": "Lesson completed. Great job!",
+  "lessonMarkAsComplete": "Mark as Complete",
+  "lessonQuizPassed": "Quiz Passed",
+  "lessonTakeQuiz": "Take Quiz",
+  "lessonQuizSectionTitle": "Quiz Checkpoint",
+  "lessonQuizSectionHint": "After practice, take this simple quiz to check your understanding.",
+  "lessonPracticeActivity": "Practice Activity",
+  "lessonBookmarkAdded": "Lesson added to bookmarks.",
+  "lessonBookmarkRemoved": "Lesson removed from bookmarks.",
+
+  "quizTitle": "Quiz",
+  "quizLessonTitle": "Lesson Quiz",
+  "quizNotFoundTitle": "Quiz Not Found",
+  "quizNotFoundMessage": "No local quiz data is available for this lesson.",
+  "quizPassedBanner": "Passed! Score: {score}%. Next lesson unlocked.",
+  "@quizPassedBanner": {
+    "placeholders": {
+      "score": {"type": "int"}
+    }
+  },
+  "quizFailedBanner": "Score: {score}%. Need {required}% to pass.",
+  "@quizFailedBanner": {
+    "placeholders": {
+      "score": {"type": "int"},
+      "required": {"type": "int"}
+    }
+  },
+  "quizQuestionTypeLabel": "Q{number} · {type}",
+  "@quizQuestionTypeLabel": {
+    "placeholders": {
+      "number": {"type": "int"},
+      "type": {}
+    }
+  },
+  "quizExplanationPrefix": "Explanation: {text}",
+  "@quizExplanationPrefix": {
+    "placeholders": {
+      "text": {}
+    }
+  },
+  "quizBackToLesson": "Back to Lesson",
+  "quizRetry": "Retry Quiz",
+  "quizSubmit": "Submit Quiz",
+  "quizSubmitAnswer": "Submit Answer",
+  "quizShowAnswer": "Show Answer",
+  "quizNext": "Next Question",
+  "quizFinish": "Finish Quiz",
+  "quizNextLesson": "Next Lesson",
+  "quizCorrectLabel": "Correct answer",
+  "quizIncorrectLabel": "Not quite right",
+  "quizQuestionProgress": "Question {current} of {total}",
+  "@quizQuestionProgress": {
+    "placeholders": {
+      "current": {"type": "int"},
+      "total": {"type": "int"}
+    }
+  },
+  "quizScoreSummary": "Final Score: {score}%",
+  "@quizScoreSummary": {
+    "placeholders": {
+      "score": {"type": "int"}
+    }
+  },
+  "quizCorrectAnswerLabel": "Correct answer: {answer}",
+  "@quizCorrectAnswerLabel": {
+    "placeholders": {
+      "answer": {}
+    }
+  },
+  "quizSelectAnswerSnack": "Please select an answer first.",
+  "quizAnswerAllSnack": "Please answer all questions first.",
+  "quizTypeMultipleChoice": "Multiple Choice",
+  "quizTypeTrueFalse": "True or False",
+  "quizTypePredictOutput": "Predict Output",
+  "quizTypeIdentification": "Identification",
+  "quizTypeCodeMeaning": "Code Meaning",
+
+  "practiceTitle": "Practice",
+  "practiceActivityTitle": "Practice Activity",
+  "practiceMissingTitle": "Practice Missing",
+  "practiceMissingLessonMessage": "This lesson does not have practice data.",
+  "practiceMissingLevelMessage": "No practice set found for this level.",
+  "practicePassedMessage": "Great work. Practice cleared ({score}/3).",
+  "@practicePassedMessage": {
+    "placeholders": {
+      "score": {"type": "int"}
+    }
+  },
+  "practiceFailedMessage": "Practice score: {score}/3. Review and try again.",
+  "@practiceFailedMessage": {
+    "placeholders": {
+      "score": {"type": "int"}
+    }
+  },
+  "practiceArrangeCode": "1) Arrange Code Order",
+  "practiceFindBug": "2) Find the Bug",
+  "practiceMatchConcept": "3) Match Concept and Definition",
+  "practiceRetry": "Retry Practice",
+  "practiceSubmit": "Submit Practice",
+
+  "ideTitle": "Code IDE",
+  "ideSubtitle": "Jump straight into coding practice templates.",
+  "ideHint": "Choose a template, edit code, then run output instantly.",
+  "ideOpenButton": "Open",
+  "ideNoTemplatesTitle": "No IDE templates yet",
+  "ideNoTemplatesMessage": "Add practice templates to start coding here.",
+  "ideHtmlStarterTitle": "HTML Starter",
+  "ideHtmlStarterSubtitle": "Basic page structure and semantic tags.",
+  "ideCssStarterTitle": "CSS Starter",
+  "ideCssStarterSubtitle": "Style, spacing, and clean visual layout.",
+  "ideJsStarterTitle": "JavaScript Starter",
+  "ideJsStarterSubtitle": "Variables, functions, and interaction.",
+  "ideFrameworkStarterTitle": "Framework Layout",
+  "ideFrameworkStarterSubtitle": "Bootstrap-like grid and reusable layout.",
+  "ideReactStarterTitle": "React-style Components",
+  "ideReactStarterSubtitle": "Build reusable component patterns.",
+  "ideProjectStarterTitle": "Framework Project Flow",
+  "ideProjectStarterSubtitle": "Binding, events, and modular mindset.",
+
+  "progressTitle": "Learning Progress",
+  "progressSubtitle": "Track mastery, XP, quizzes, and consistency.",
+  "progressMastery": "Mastery",
+  "progressCurrentLevel": "Current Level",
+  "progressXp": "XP",
+  "progressStreak": "Streak",
+  "progressDays": "{count} day(s)",
+  "@progressDays": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "progressLessonsCompleted": "Lessons Completed",
+  "progressQuizzesPassed": "Quizzes Passed",
+  "progressPracticeCleared": "Practice Cleared",
+  "progressAchievementBadges": "Achievement Badges",
+  "progressNoBadgesTitle": "No badges yet",
+  "progressNoBadgesMessage": "Complete your first lesson and quiz to start earning badges.",
+
+  "profileTitle": "Profile",
+  "profileLearnerLine": "Level {level} Learner · {xp} XP",
+  "@profileLearnerLine": {
+    "placeholders": {
+      "level": {"type": "int"},
+      "xp": {"type": "int"}
+    }
+  },
+  "profileLearningSummary": "Learning Summary",
+  "profileCompletedLessons": "Completed Lessons",
+  "profilePassedQuizzes": "Passed Quizzes",
+  "profileCompletionPercent": "Profile Completion",
+  "profileCurrentStreak": "Current Streak",
+  "profileAchievementBadges": "Achievement Badges",
+  "profileNoBadgesTitle": "No badges yet",
+  "profileNoBadgesMessage": "Finish lessons and quizzes to unlock badges.",
+  "profileUpdateName": "Update Name",
+  "profileNameHint": "Enter your display name",
+
+  "settingsTitle": "Settings",
+  "settingsDarkMode": "Dark Mode",
+  "settingsDarkModeSubtitle": "Enable a darker theme for night study.",
+  "settingsNotifications": "Notifications",
+  "settingsNotificationsSubtitle": "Keep a simple reminder toggle (local only).",
+  "settingsLanguage": "Language",
+  "settingsLanguageSubtitle": "Choose app language for labels and instructions.",
+  "settingsProgressControls": "Progress Controls",
+  "settingsProgressDescription": "Reset will clear lessons, quizzes, XP, streak, and badges. Theme and onboarding stay as-is.",
+  "settingsResetProgress": "Reset Progress",
+  "settingsAbout": "About",
+  "settingsAboutDescription": "Offline-first learning app for incoming IT freshmen. No login, no backend, just local guided progression.",
+  "settingsResetDialogTitle": "Reset Progress?",
+  "settingsResetDialogMessage": "This will remove your completed lessons, quizzes, XP, and badges.",
+  "settingsResetSuccess": "Progress reset successfully.",
+
+  "lessonCodeExampleTitle": "Code Example",
+  "lessonBriefExplanationTitle": "Short Explanation",
+  "lessonExpectedOutputTitle": "Expected Output",
+  "lessonProgressStepTitle": "Complete This Step",
+  "lessonPracticeButton": "Practice",
+  "lessonNextLessonButton": "Next Lesson",
+  "lessonFinishPathButton": "Back to Roadmap",
+  "lessonNextLocked": "Pass the quiz first to unlock the next lesson.",
+
+  "playgroundTitle": "Practice: {lessonTitle}",
+  "@playgroundTitle": {
+    "placeholders": {
+      "lessonTitle": {}
+    }
+  },
+  "playgroundIntro": "Edit the starter code, then run it to see output instantly.",
+  "playgroundStarterHint": "Tip: Start small. Change one line, run, then observe output.",
+  "playgroundOutputPreview": "Output Preview",
+  "playgroundRun": "Run",
+  "playgroundReload": "Reload",
+  "playgroundRestart": "Restart",
+  "playgroundHtmlTab": "HTML",
+  "playgroundCssTab": "CSS",
+  "playgroundJsTab": "JavaScript",
+
+  "lessonL11Title": "What Is Programming?",
+  "lessonL11Intro": "Programming gives instructions to computers.",
+  "lessonL11Output": "A clear set of ordered steps to solve one simple task.",
+  "lessonL12Title": "Logic and Algorithms",
+  "lessonL12Intro": "Algorithms are ordered problem-solving steps.",
+  "lessonL12Output": "A flow where input is checked and output is predictable.",
+  "lessonL21Title": "HTML Structure and Tags",
+  "lessonL21Intro": "HTML defines the structure of a web page.",
+  "lessonL21Output": "A page showing a heading and paragraph in correct structure.",
+  "lessonL22Title": "Links, Images, Lists, Forms",
+  "lessonL22Intro": "Core HTML elements make pages useful.",
+  "lessonL22Output": "A page with links, list items, and basic user input form elements.",
+  "lessonL31Title": "CSS Syntax and Selectors",
+  "lessonL31Intro": "CSS controls visual style and appearance.",
+  "lessonL31Output": "The same HTML appears with custom colors, spacing, and style.",
+  "lessonL32Title": "Flexbox and Responsive Basics",
+  "lessonL32Intro": "Layouts should adapt to different screens.",
+  "lessonL32Output": "Elements align in rows/columns and adjust better on small screens.",
+  "lessonL41Title": "Variables, Conditions, and Loops",
+  "lessonL41Intro": "JavaScript adds logic and behavior to pages.",
+  "lessonL41Output": "Interactive output that changes when conditions or loops run.",
+  "lessonL42Title": "Functions, Arrays, and Objects",
+  "lessonL42Intro": "Organize logic and data with reusable patterns.",
+  "lessonL42Output": "Structured output generated from arrays, objects, and function calls.",
+  "lessonL51Title": "Bootstrap Layout Basics",
+  "lessonL51Intro": "Use framework classes for faster responsive layout.",
+  "lessonL51Output": "A simple grid-based page with reusable layout sections.",
+  "lessonL52Title": "React Component Basics",
+  "lessonL52Intro": "Split UI into reusable components and pass data.",
+  "lessonL52Output": "Reusable component-style cards rendered from one function.",
+  "lessonL53Title": "Vue and Angular Core Patterns",
+  "lessonL53Intro": "Learn binding, components, and module-based structure.",
+  "lessonL53Output": "Live UI output that updates from input and event logic.",
+  "lessonL71Title": "Clean Code and Reusability",
+  "lessonL71Intro": "Readable code scales better over time.",
+  "lessonL71Output": "A reusable component-style section rendered from reusable logic.",
+  "lessonL72Title": "API Intro and JSON Basics",
+  "lessonL72Intro": "Apps exchange structured data through APIs.",
+  "lessonL72Output": "Formatted JSON-like data shown in readable structure.",
+
+  "languageEnglish": "English",
+  "languageBisaya": "Bisaya",
+  "languageFilipino": "Filipino",
+
+  "quote0": "Every expert once started with one line of code.",
+  "quote1": "Small progress daily beats rare giant efforts.",
+  "quote2": "Debugging sharpens your developer mindset.",
+  "quote3": "Clarity first, cleverness later.",
+  "quote4": "Build small, finish strong, then level up.",
+  "quote5": "Consistency turns beginners into builders.",
+  "quote6": "Your next lesson is your next breakthrough.",
+
+  "badgeFirstStep": "First Step",
+  "badgeQuizStarter": "Quiz Starter",
+  "badgePracticeExplorer": "Practice Explorer",
+  "badgeMomentumCoder": "Momentum Coder",
+  "badgeLevelCleared": "Level {level} Cleared",
+  "@badgeLevelCleared": {
+    "placeholders": {
+      "level": {"type": "int"}
+    }
+  },
+  "badgeExpertTrailblazer": "Expert Trailblazer"
+}
