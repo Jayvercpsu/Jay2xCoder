@@ -2,6 +2,19 @@ import 'package:jay2xcoder/data/models/app_state.dart';
 import 'package:jay2xcoder/data/models/learning_level.dart';
 import 'package:jay2xcoder/data/models/lesson_item.dart';
 
+const Set<String> quizOptionalLessonIds = <String>{'l1_1', 'l1_2'};
+
+bool lessonRequiresQuiz(String lessonId) {
+  return !quizOptionalLessonIds.contains(lessonId);
+}
+
+bool isLessonMastered({required LessonItem lesson, required AppState state}) {
+  final bool completed = state.completedLessons.contains(lesson.id);
+  final bool quizSatisfied =
+      !lessonRequiresQuiz(lesson.id) || state.passedQuizzes.contains(lesson.id);
+  return completed && quizSatisfied;
+}
+
 List<LearningLevel> sortLevels(List<LearningLevel> levels) {
   final List<LearningLevel> sorted = List<LearningLevel>.from(levels);
   sorted.sort((LearningLevel a, LearningLevel b) => a.order.compareTo(b.order));
@@ -36,10 +49,7 @@ LessonItem? findLessonById(List<LearningLevel> levels, String lessonId) {
 
 bool isLevelCompleted({required LearningLevel level, required AppState state}) {
   for (final LessonItem lesson in level.lessons) {
-    if (!state.completedLessons.contains(lesson.id)) {
-      return false;
-    }
-    if (!state.passedQuizzes.contains(lesson.id)) {
+    if (!isLessonMastered(lesson: lesson, state: state)) {
       return false;
     }
   }
@@ -88,13 +98,7 @@ bool isLessonUnlocked({
   }
 
   final LessonItem previousLesson = orderedLessons[index - 1];
-  final bool previousCompleted = state.completedLessons.contains(
-    previousLesson.id,
-  );
-  final bool previousQuizPassed = state.passedQuizzes.contains(
-    previousLesson.id,
-  );
-  return previousCompleted && previousQuizPassed;
+  return isLessonMastered(lesson: previousLesson, state: state);
 }
 
 int currentUnlockedLevelOrder({
@@ -124,9 +128,7 @@ LessonItem? nextLesson({
       if (!unlocked) {
         continue;
       }
-      final bool done =
-          state.completedLessons.contains(lesson.id) &&
-          state.passedQuizzes.contains(lesson.id);
+      final bool done = isLessonMastered(lesson: lesson, state: state);
       if (!done) {
         return lesson;
       }

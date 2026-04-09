@@ -142,6 +142,13 @@ class _RoadmapScreenState extends ConsumerState<RoadmapScreen> {
                       const Color(0xFFFDE6E0),
                     ];
                     final Color cardColor = colors[index % colors.length];
+                    final bool lightCard = cardColor.computeLuminance() > 0.72;
+                    final Color titleColor = lightCard
+                        ? ReferencePalette.textNeutral
+                        : ReferencePalette.onSurface(context);
+                    final Color bodyColor = lightCard
+                        ? const Color(0xFF475569)
+                        : ReferencePalette.onMuted(context);
 
                     return StaggerReveal(
                       index: index,
@@ -171,9 +178,7 @@ class _RoadmapScreenState extends ConsumerState<RoadmapScreen> {
                                       style: theme.textTheme.titleSmall
                                           ?.copyWith(
                                             fontWeight: FontWeight.w800,
-                                            color: ReferencePalette.onSurface(
-                                              context,
-                                            ),
+                                            color: titleColor,
                                           ),
                                     ),
                                     const SizedBox(height: 2),
@@ -183,9 +188,7 @@ class _RoadmapScreenState extends ConsumerState<RoadmapScreen> {
                                       overflow: TextOverflow.ellipsis,
                                       style: theme.textTheme.bodySmall
                                           ?.copyWith(
-                                            color: ReferencePalette.onMuted(
-                                              context,
-                                            ),
+                                            color: bodyColor,
                                           ),
                                     ),
                                     const SizedBox(height: 8),
@@ -220,9 +223,7 @@ class _RoadmapScreenState extends ConsumerState<RoadmapScreen> {
                                           item.lesson.techLabel,
                                           style: theme.textTheme.labelSmall
                                               ?.copyWith(
-                                                color: ReferencePalette.onMuted(
-                                                  context,
-                                                ),
+                                                color: bodyColor,
                                               ),
                                         ),
                                       ],
@@ -248,7 +249,7 @@ class _RoadmapScreenState extends ConsumerState<RoadmapScreen> {
                                         : Icons.chevron_right_rounded,
                                     color: done
                                         ? Colors.green
-                                        : ReferencePalette.onMuted(context),
+                                        : bodyColor,
                                   ),
                                 ],
                               ),
@@ -303,7 +304,7 @@ class _TabPill extends StatelessWidget {
           style: Theme.of(context).textTheme.labelSmall?.copyWith(
             color: selected
                 ? Colors.white
-                : ReferencePalette.onSurface(context),
+                : ReferencePalette.textNeutral,
             fontWeight: FontWeight.w700,
           ),
         ),

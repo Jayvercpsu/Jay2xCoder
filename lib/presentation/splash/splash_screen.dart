@@ -42,54 +42,65 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
     final bool dark = theme.brightness == Brightness.dark;
 
     return Scaffold(
-      body: Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: dark
-                ? const <Color>[Color(0xFF172033), Color(0xFF0F172A)]
-                : const <Color>[Color(0xFFBFD8F9), Color(0xFF8BB7EE)],
+      body: AnimatedOpacity(
+        opacity: _visible ? 1 : 0,
+        duration: const Duration(milliseconds: 650),
+        curve: Curves.easeOut,
+        child: Container(
+          width: double.infinity,
+          height: double.infinity,
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: dark
+                  ? const <Color>[Color(0xFF172033), Color(0xFF0F172A)]
+                  : const <Color>[Color(0xFFBFD8F9), Color(0xFF8BB7EE)],
+            ),
           ),
-        ),
-        child: SafeArea(
-          child: AnimatedOpacity(
-            opacity: _visible ? 1 : 0,
-            duration: const Duration(milliseconds: 650),
-            curve: Curves.easeOut,
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(24, 20, 24, 20),
-              child: Column(
-                children: <Widget>[
-                  const Spacer(),
-                  Text(
-                    AppConstants.appName,
-                    style: theme.textTheme.headlineMedium?.copyWith(
-                      color: dark
-                          ? Colors.white
-                          : ReferencePalette.onSurface(context),
-                      fontWeight: FontWeight.w600,
-                    ),
+          child: SafeArea(
+            child: LayoutBuilder(
+              builder: (BuildContext context, BoxConstraints constraints) {
+                return Padding(
+                  padding: const EdgeInsets.fromLTRB(24, 18, 24, 12),
+                  child: Column(
+                    children: <Widget>[
+                      const SizedBox(height: 10),
+                      Text(
+                        AppConstants.appName,
+                        style: theme.textTheme.headlineMedium?.copyWith(
+                          color: dark
+                              ? Colors.white
+                              : ReferencePalette.onSurface(context),
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      const SizedBox(height: 6),
+                      Text(
+                        'Learn coding step by step',
+                        style: theme.textTheme.bodyMedium?.copyWith(
+                          color: dark
+                              ? Colors.white70
+                              : ReferencePalette.onSurface(
+                                  context,
+                                ).withValues(alpha: 0.75),
+                        ),
+                      ),
+                      const SizedBox(height: 12),
+                      Expanded(
+                        child: Align(
+                          alignment: Alignment.center,
+                          child: SvgPicture.asset(
+                            'assets/illustrations/splash_programming.svg',
+                            width: constraints.maxWidth,
+                            fit: BoxFit.contain,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-                  const SizedBox(height: 6),
-                  Text(
-                    'Learn coding step by step',
-                    style: theme.textTheme.bodyMedium?.copyWith(
-                      color: dark
-                          ? Colors.white70
-                          : ReferencePalette.onSurface(
-                              context,
-                            ).withValues(alpha: 0.75),
-                    ),
-                  ),
-                  const Spacer(),
-                  SvgPicture.asset(
-                    'assets/illustrations/splash_programming.svg',
-                    height: 220,
-                    fit: BoxFit.contain,
-                  ),
-                ],
-              ),
+                );
+              },
             ),
           ),
         ),

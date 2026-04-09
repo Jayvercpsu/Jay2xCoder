@@ -4,7 +4,6 @@ import 'package:go_router/go_router.dart';
 import 'package:jay2xcoder/core/constants/progression_utils.dart';
 import 'package:jay2xcoder/core/extensions/l10n_extension.dart';
 import 'package:jay2xcoder/presentation/home/home_screen.dart';
-import 'package:jay2xcoder/presentation/ide/ide_screen.dart';
 import 'package:jay2xcoder/presentation/lesson/lesson_screen.dart';
 import 'package:jay2xcoder/presentation/onboarding/onboarding_screen.dart';
 import 'package:jay2xcoder/presentation/practice/coding_playground_screen.dart';
@@ -80,7 +79,7 @@ class AppRouter {
                   path: '/ide',
                   name: 'ide',
                   pageBuilder: (BuildContext context, GoRouterState state) {
-                    return _buildPage(const IdeScreen(), state);
+                    return _buildPage(const PracticeScreen(), state);
                   },
                 ),
               ],
@@ -122,7 +121,7 @@ class AppRouter {
             final template = templates[templateId];
 
             if (template == null) {
-              return _buildPage(const IdeScreen(), state);
+              return _buildPage(const PracticeScreen(), state);
             }
 
             return _buildPage(

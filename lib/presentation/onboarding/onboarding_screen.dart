@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
+import 'dart:math' as math;
 import 'package:jay2xcoder/presentation/shared/widgets/reference_kit.dart';
 import 'package:jay2xcoder/providers/app_providers.dart';
 
@@ -73,49 +74,68 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                     color: dark
                         ? const Color(0xFF111827)
                         : const Color(0xFFF9FBFF),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        SvgPicture.asset(
-                          'assets/illustrations/splash_programming.svg',
-                          height: 190,
-                          fit: BoxFit.contain,
-                        ),
-                        const SizedBox(height: 20),
-                        Text(
-                          'Welcome boss!',
-                          style: theme.textTheme.headlineSmall?.copyWith(
-                            color: dark
-                                ? Colors.white
-                                : ReferencePalette.onSurface(context),
-                            fontWeight: FontWeight.w600,
+                    child: LayoutBuilder(
+                      builder: (BuildContext context, BoxConstraints constraints) {
+                        return SingleChildScrollView(
+                          child: ConstrainedBox(
+                            constraints: BoxConstraints(
+                              minHeight: constraints.maxHeight,
+                            ),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: <Widget>[
+                                SvgPicture.asset(
+                                  'assets/illustrations/splash_programming.svg',
+                                  height: math.min(
+                                    170,
+                                    constraints.maxHeight * 0.4,
+                                  ),
+                                  fit: BoxFit.contain,
+                                ),
+                                const SizedBox(height: 16),
+                                Text(
+                                  'Welcome boss!',
+                                  style: theme.textTheme.headlineSmall
+                                      ?.copyWith(
+                                        color: dark
+                                            ? Colors.white
+                                            : ReferencePalette.onSurface(
+                                                context,
+                                              ),
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                ),
+                                const SizedBox(height: 8),
+                                Text(
+                                  'What is your name?',
+                                  textAlign: TextAlign.center,
+                                  style: theme.textTheme.bodyMedium?.copyWith(
+                                    color: dark
+                                        ? Colors.white70
+                                        : ReferencePalette.onMuted(context),
+                                  ),
+                                ),
+                                const SizedBox(height: 10),
+                                TextField(
+                                  controller: _nameController,
+                                  textInputAction: TextInputAction.done,
+                                  onSubmitted: (_) {
+                                    if (!_busy) {
+                                      _finish();
+                                    }
+                                  },
+                                  decoration: const InputDecoration(
+                                    hintText: 'Enter your name',
+                                    prefixIcon: Icon(
+                                      Icons.person_outline_rounded,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
-                        ),
-                        const SizedBox(height: 8),
-                        Text(
-                          'What is your name?',
-                          textAlign: TextAlign.center,
-                          style: theme.textTheme.bodyMedium?.copyWith(
-                            color: dark
-                                ? Colors.white70
-                                : ReferencePalette.onMuted(context),
-                          ),
-                        ),
-                        const SizedBox(height: 10),
-                        TextField(
-                          controller: _nameController,
-                          textInputAction: TextInputAction.done,
-                          onSubmitted: (_) {
-                            if (!_busy) {
-                              _finish();
-                            }
-                          },
-                          decoration: const InputDecoration(
-                            hintText: 'Enter your name',
-                            prefixIcon: Icon(Icons.person_outline_rounded),
-                          ),
-                        ),
-                      ],
+                        );
+                      },
                     ),
                   ),
                 ),

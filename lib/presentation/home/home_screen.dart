@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:jay2xcoder/core/constants/progression_utils.dart';
 import 'package:jay2xcoder/core/extensions/l10n_extension.dart';
@@ -35,10 +36,12 @@ class HomeScreen extends ConsumerWidget {
     };
 
     final List<LessonItem> featured = <String>[
+      'l1_1',
       'l2_1',
       'l3_1',
       'l4_1',
       'l5_1',
+      'l9_1',
     ].map((String id) => byId[id]).whereType<LessonItem>().toList();
 
     final String quote = localizedQuote(l10n, quoteIndex);
@@ -67,6 +70,14 @@ class HomeScreen extends ConsumerWidget {
           lesson.techLabel.toLowerCase().contains('react'),
       fallbackTotal: 15,
       fallbackDone: 2,
+    );
+    final _TechProgress phpProgress = _techProgress(
+      lessons: lessons,
+      completed: appState.completedLessons,
+      matcher: (LessonItem lesson) =>
+          lesson.techLabel.toLowerCase().contains('php'),
+      fallbackTotal: 8,
+      fallbackDone: 0,
     );
 
     return Stack(
@@ -188,38 +199,54 @@ class HomeScreen extends ConsumerWidget {
                 const SizedBox(height: 14),
                 StaggerReveal(
                   index: 2,
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Expanded(
-                        child: ReferenceCard(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              Text(
-                                'Daily Tip',
-                                style: theme.textTheme.titleSmall?.copyWith(
-                                  color: ReferencePalette.onSurface(context),
+                  child: LayoutBuilder(
+                    builder: (BuildContext context, BoxConstraints constraints) {
+                      final bool compact = constraints.maxWidth < 460;
+
+                      if (compact) {
+                        return Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            _DailyTipCard(quote: quote),
+                            const SizedBox(height: 10),
+                            Center(
+                              child: SizedBox(
+                                width: 170,
+                                child: ReferenceCard(
+                                  padding: const EdgeInsets.all(10),
+                                  color: const Color(0xFFF8FAFC),
+                                  borderColor: ReferencePalette.border,
+                                  child: ProgressRing(
+                                    value: mastery,
+                                    label: 'Progress',
+                                  ),
                                 ),
                               ),
-                              const SizedBox(height: 8),
-                              Text(
-                                quote,
-                                style: theme.textTheme.bodySmall?.copyWith(
-                                  color: ReferencePalette.onMuted(context),
-                                  height: 1.4,
-                                ),
+                            ),
+                          ],
+                        );
+                      }
+
+                      return Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Expanded(child: _DailyTipCard(quote: quote)),
+                          const SizedBox(width: 10),
+                          SizedBox(
+                            width: 130,
+                            child: ReferenceCard(
+                              padding: const EdgeInsets.all(10),
+                              color: const Color(0xFFF8FAFC),
+                              borderColor: ReferencePalette.border,
+                              child: ProgressRing(
+                                value: mastery,
+                                label: 'Progress',
                               ),
-                            ],
+                            ),
                           ),
-                        ),
-                      ),
-                      const SizedBox(width: 10),
-                      ReferenceCard(
-                        padding: const EdgeInsets.all(10),
-                        child: ProgressRing(value: mastery, label: 'Progress'),
-                      ),
-                    ],
+                        ],
+                      );
+                    },
                   ),
                 ),
                 const SizedBox(height: 14),
@@ -240,22 +267,32 @@ class HomeScreen extends ConsumerWidget {
                           label: 'HTML',
                           progress: htmlProgress.progress,
                           rightText:
-                              '${htmlProgress.done}/${htmlProgress.total}',
+                              '${htmlProgress.done}/${htmlProgress.total} | ${(htmlProgress.progress * 100).round()}%',
                           color: const Color(0xFFE67E22),
                         ),
                         const SizedBox(height: 10),
                         _ProgressBar(
                           label: 'CSS',
                           progress: cssProgress.progress,
-                          rightText: '${cssProgress.done}/${cssProgress.total}',
+                          rightText:
+                              '${cssProgress.done}/${cssProgress.total} | ${(cssProgress.progress * 100).round()}%',
                           color: ReferencePalette.softTeal,
                         ),
                         const SizedBox(height: 10),
                         _ProgressBar(
                           label: 'JS',
                           progress: jsProgress.progress,
-                          rightText: '${jsProgress.done}/${jsProgress.total}',
+                          rightText:
+                              '${jsProgress.done}/${jsProgress.total} | ${(jsProgress.progress * 100).round()}%',
                           color: const Color(0xFFF1C40F),
+                        ),
+                        const SizedBox(height: 10),
+                        _ProgressBar(
+                          label: 'PHP',
+                          progress: phpProgress.progress,
+                          rightText:
+                              '${phpProgress.done}/${phpProgress.total} | ${(phpProgress.progress * 100).round()}%',
+                          color: const Color(0xFF8E44AD),
                         ),
                       ],
                     ),
@@ -312,6 +349,8 @@ class _FeaturedTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
+    const Color titleColor = ReferencePalette.textNeutral;
+    const Color subtitleColor = Color(0xFF475569);
 
     return InkWell(
       borderRadius: BorderRadius.circular(24),
@@ -342,7 +381,7 @@ class _FeaturedTile extends StatelessWidget {
             Text(
               lesson.techLabel.toUpperCase(),
               style: theme.textTheme.labelSmall?.copyWith(
-                color: ReferencePalette.onMuted(context),
+                color: subtitleColor,
                 fontWeight: FontWeight.w700,
               ),
             ),
@@ -352,7 +391,7 @@ class _FeaturedTile extends StatelessWidget {
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
               style: theme.textTheme.bodySmall?.copyWith(
-                color: ReferencePalette.onSurface(context),
+                color: titleColor,
                 fontWeight: FontWeight.w600,
               ),
             ),
@@ -425,4 +464,135 @@ class _TechProgress {
   final int done;
   final int total;
   final double progress;
+}
+
+class _DailyTipCard extends StatelessWidget {
+  const _DailyTipCard({required this.quote});
+
+  final String quote;
+
+  @override
+  Widget build(BuildContext context) {
+    final ThemeData theme = Theme.of(context);
+
+    return ReferenceCard(
+      padding: const EdgeInsets.all(12),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 10,
+                    vertical: 5,
+                  ),
+                  decoration: BoxDecoration(
+                    gradient: const LinearGradient(
+                      colors: <Color>[
+                        ReferencePalette.accentStart,
+                        ReferencePalette.accentEnd,
+                      ],
+                    ),
+                    borderRadius: BorderRadius.circular(999),
+                  ),
+                  child: Text(
+                    'Daily Tip',
+                    style: theme.textTheme.labelSmall?.copyWith(
+                      color: Colors.white,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  quote,
+                  maxLines: 3,
+                  overflow: TextOverflow.ellipsis,
+                  style: theme.textTheme.bodySmall?.copyWith(
+                    color: ReferencePalette.onMuted(context),
+                    height: 1.4,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+                const SizedBox(height: 8),
+                Container(
+                  width: double.infinity,
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 8,
+                    vertical: 6,
+                  ),
+                  decoration: BoxDecoration(
+                    color: ReferencePalette.surfaceSoft(context),
+                    borderRadius: BorderRadius.circular(10),
+                    border: Border.all(
+                      color: ReferencePalette.cardBorder(context),
+                    ),
+                  ),
+                  child: Row(
+                    children: <Widget>[
+                      SvgPicture.asset(
+                        'assets/tech/html5.svg',
+                        width: 14,
+                        height: 14,
+                      ),
+                      const SizedBox(width: 5),
+                      SvgPicture.asset(
+                        'assets/tech/css3.svg',
+                        width: 14,
+                        height: 14,
+                      ),
+                      const SizedBox(width: 5),
+                      SvgPicture.asset(
+                        'assets/tech/javascript.svg',
+                        width: 14,
+                        height: 14,
+                      ),
+                      const SizedBox(width: 7),
+                      Expanded(
+                        child: Text(
+                          'Code small, learn fast.',
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: theme.textTheme.labelSmall?.copyWith(
+                            color: ReferencePalette.textNeutral,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(width: 10),
+          Container(
+            width: 76,
+            height: 76,
+            padding: const EdgeInsets.all(8),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(16),
+              gradient: LinearGradient(
+                colors: <Color>[
+                  ReferencePalette.surfaceSoft(context),
+                  ReferencePalette.surfaceSoft(context).withValues(alpha: 0.7),
+                ],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+              ),
+              border: Border.all(color: ReferencePalette.cardBorder(context)),
+            ),
+            child: SvgPicture.asset(
+              'assets/illustrations/online-learning.svg',
+              fit: BoxFit.contain,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 }

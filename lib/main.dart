@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:jay2xcoder/app/app.dart';
 import 'package:jay2xcoder/data/models/app_state.dart';
@@ -7,6 +8,10 @@ import 'package:jay2xcoder/providers/app_providers.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await SystemChrome.setPreferredOrientations(<DeviceOrientation>[
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown,
+  ]);
 
   final LocalStorageService storage = LocalStorageService();
   await storage.init();

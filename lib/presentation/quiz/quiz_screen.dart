@@ -42,7 +42,15 @@ class _QuizScreenState extends ConsumerState<QuizScreen> {
 
     if (quiz == null) {
       return Scaffold(
-        appBar: AppBar(title: Text(l10n.quizTitle)),
+        appBar: AppBar(
+          title: Text(l10n.quizTitle),
+          actions: <Widget>[
+            IconButton(
+              onPressed: () => context.push('/settings'),
+              icon: const Icon(Icons.settings_outlined),
+            ),
+          ],
+        ),
         body: Padding(
           padding: const EdgeInsets.all(16),
           child: StatePlaceholder(
@@ -60,7 +68,15 @@ class _QuizScreenState extends ConsumerState<QuizScreen> {
     final int? selected = _answers[_currentIndex];
 
     return Scaffold(
-      appBar: AppBar(title: Text(l10n.quizLessonTitle)),
+      appBar: AppBar(
+        title: Text(l10n.quizLessonTitle),
+        actions: <Widget>[
+          IconButton(
+            onPressed: () => context.push('/settings'),
+            icon: const Icon(Icons.settings_outlined),
+          ),
+        ],
+      ),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(16),
@@ -70,7 +86,14 @@ class _QuizScreenState extends ConsumerState<QuizScreen> {
                   passed: _passed,
                   passScore: quiz.passScore,
                   onRetry: _resetQuiz,
-                  onBackToLesson: () => context.pop(),
+                  onBackToLesson: () {
+                    FocusManager.instance.primaryFocus?.unfocus();
+                    context.pop();
+                  },
+                  onBackToHome: () {
+                    FocusManager.instance.primaryFocus?.unfocus();
+                    context.go('/home');
+                  },
                   onNextLesson: () => _goNextLesson(context),
                   hasNextLesson: _hasNextLesson(),
                 )
@@ -430,6 +453,7 @@ class _ResultPane extends StatelessWidget {
     required this.passScore,
     required this.onRetry,
     required this.onBackToLesson,
+    required this.onBackToHome,
     required this.onNextLesson,
     required this.hasNextLesson,
   });
@@ -439,6 +463,7 @@ class _ResultPane extends StatelessWidget {
   final int passScore;
   final VoidCallback onRetry;
   final VoidCallback onBackToLesson;
+  final VoidCallback onBackToHome;
   final VoidCallback onNextLesson;
   final bool hasNextLesson;
 
@@ -508,9 +533,19 @@ class _ResultPane extends StatelessWidget {
         const SizedBox(height: 8),
         SizedBox(
           width: double.infinity,
-          child: TextButton(
+          child: OutlinedButton.icon(
+            onPressed: onBackToHome,
+            icon: const Icon(Icons.home_rounded),
+            label: const Text('Back to Home'),
+          ),
+        ),
+        const SizedBox(height: 8),
+        SizedBox(
+          width: double.infinity,
+          child: OutlinedButton.icon(
             onPressed: onBackToLesson,
-            child: Text(l10n.quizBackToLesson),
+            icon: const Icon(Icons.menu_book_rounded),
+            label: Text(l10n.quizBackToLesson),
           ),
         ),
       ],

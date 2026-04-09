@@ -129,9 +129,14 @@ class AppStateController extends StateNotifier<AppState> {
 
     final Set<String> lessons = Set<String>.from(state.completedLessons)
       ..add(lessonId);
+    final Set<String> quizzes = Set<String>.from(state.passedQuizzes);
+    if (!lessonRequiresQuiz(lessonId)) {
+      quizzes.add(lessonId);
+    }
     final AppState progress = _applyLearningActivity(
       state.copyWith(
         completedLessons: lessons,
+        passedQuizzes: quizzes,
         xp: state.xp + AppConstants.lessonXp,
       ),
     );

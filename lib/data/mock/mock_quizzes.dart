@@ -45,11 +45,6 @@ Map<String, LessonQuiz> _buildGenericLessonQuizzes() {
           ceb: 'basics sa programming',
           fil: 'basics ng programming',
         ),
-        'l1_2': (
-          en: 'algorithms and logic',
-          ceb: 'algorithms ug logic',
-          fil: 'algorithms at logic',
-        ),
         'l3_1': (
           en: 'CSS selectors',
           ceb: 'CSS selectors',
@@ -99,6 +94,12 @@ Map<String, LessonQuiz> _buildGenericLessonQuizzes() {
           fil: 'project planning',
         ),
         'l8_2': (en: 'optimization', ceb: 'optimization', fil: 'optimization'),
+        'l9_1': (en: 'PHP basics', ceb: 'PHP basics', fil: 'PHP basics'),
+        'l9_2': (
+          en: 'PHP forms and input',
+          ceb: 'PHP forms ug input',
+          fil: 'PHP forms at input',
+        ),
       };
 
   final Map<String, LessonQuiz> result = <String, LessonQuiz>{};

@@ -109,11 +109,16 @@ class ReferenceCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bool dark = ReferencePalette.isDark(context);
+    final Color resolvedColor = color ?? ReferencePalette.card(context);
+    final bool onLightSurface = resolvedColor.computeLuminance() > 0.72;
+    final Color defaultTextColor = onLightSurface
+        ? ReferencePalette.textNeutral
+        : ReferencePalette.onSurface(context);
 
     return Container(
       padding: padding,
       decoration: BoxDecoration(
-        color: color ?? ReferencePalette.card(context),
+        color: resolvedColor,
         borderRadius: BorderRadius.circular(radius),
         border: Border.all(
           color: borderColor ?? ReferencePalette.cardBorder(context),
@@ -126,7 +131,13 @@ class ReferenceCard extends StatelessWidget {
           ),
         ],
       ),
-      child: child,
+      child: IconTheme(
+        data: IconThemeData(color: defaultTextColor),
+        child: DefaultTextStyle.merge(
+          style: TextStyle(color: defaultTextColor),
+          child: child,
+        ),
+      ),
     );
   }
 }

@@ -32,6 +32,16 @@ class SettingsScreen extends ConsumerWidget {
                   SoftCard(
                     child: Column(
                       children: <Widget>[
+                        ListTile(
+                          contentPadding: EdgeInsets.zero,
+                          leading: const Icon(Icons.person_outline_rounded),
+                          title: const Text('Your Name'),
+                          subtitle: Text(state.learnerName),
+                          trailing: const Icon(Icons.edit_rounded),
+                          onTap: () =>
+                              _showNameDialog(context, ref, state.learnerName),
+                        ),
+                        const Divider(height: 1),
                         SwitchListTile(
                           contentPadding: EdgeInsets.zero,
                           title: Text(l10n.settingsDarkMode),
@@ -46,8 +56,10 @@ class SettingsScreen extends ConsumerWidget {
                         const Divider(height: 1),
                         SwitchListTile(
                           contentPadding: EdgeInsets.zero,
-                          title: Text(l10n.settingsNotifications),
-                          subtitle: Text(l10n.settingsNotificationsSubtitle),
+                          title: const Text('Simple Reminder Toggle'),
+                          subtitle: const Text(
+                            'Enable/disable a simple local study reminder.',
+                          ),
                           value: state.notificationsEnabled,
                           onChanged: (bool value) async {
                             await ref
@@ -101,29 +113,6 @@ class SettingsScreen extends ConsumerWidget {
                             icon: const Icon(Icons.restart_alt_rounded),
                             label: Text(l10n.settingsResetProgress),
                           ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(height: 12),
-                  SoftCard(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Text(
-                          l10n.settingsAbout,
-                          style: theme.textTheme.titleMedium?.copyWith(
-                            fontWeight: FontWeight.w700,
-                          ),
-                        ),
-                        const SizedBox(height: 8),
-                        Text(l10n.appName),
-                        const SizedBox(height: 2),
-                        Text(l10n.appSubtitle),
-                        const SizedBox(height: 8),
-                        Text(
-                          l10n.settingsAboutDescription,
-                          style: theme.textTheme.bodyMedium,
                         ),
                       ],
                     ),
@@ -199,6 +188,75 @@ class SettingsScreen extends ConsumerWidget {
         );
       },
     );
+  }
+
+  Future<void> _showNameDialog(
+    BuildContext context,
+    WidgetRef ref,
+    String currentName,
+  ) async {
+    String draftName = currentName;
+
+    final String? newName = await showDialog<String>(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Update Name'),
+          content: TextFormField(
+            initialValue: currentName,
+            autofocus: true,
+            textInputAction: TextInputAction.done,
+            onChanged: (String value) {
+              draftName = value;
+            },
+            onFieldSubmitted: (String value) {
+              FocusScope.of(context).unfocus();
+              Navigator.pop(context, value.trim());
+            },
+            decoration: const InputDecoration(hintText: 'Enter your name'),
+          ),
+          actionsPadding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+          actions: <Widget>[
+            Row(
+              children: <Widget>[
+                Expanded(
+                  child: OutlinedButton(
+                    onPressed: () {
+                      FocusScope.of(context).unfocus();
+                      Navigator.pop(context);
+                    },
+                    child: const Text('Cancel'),
+                  ),
+                ),
+                const SizedBox(width: 10),
+                Expanded(
+                  child: ElevatedButton(
+                    onPressed: () {
+                      FocusScope.of(context).unfocus();
+                      Navigator.pop(context, draftName.trim());
+                    },
+                    child: const Text('Save'),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        );
+      },
+    );
+
+    if (newName == null || newName.isEmpty) {
+      return;
+    }
+
+    await ref
+        .read(appStateControllerProvider.notifier)
+        .updateLearnerName(newName);
+    if (context.mounted) {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text('Name updated.')));
+    }
   }
 
   Future<void> _confirmReset(BuildContext context, WidgetRef ref) async {

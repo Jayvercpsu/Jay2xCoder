@@ -30,11 +30,17 @@ class ProgressRing extends StatelessWidget {
               Text(
                 '${(safe * 100).round()}%',
                 style: theme.textTheme.titleMedium?.copyWith(
+                  color: ReferencePalette.textNeutral,
                   fontWeight: FontWeight.w600,
                 ),
               ),
               const SizedBox(height: 2),
-              Text(label, style: theme.textTheme.labelSmall),
+              Text(
+                label,
+                style: theme.textTheme.labelSmall?.copyWith(
+                  color: ReferencePalette.textNeutral,
+                ),
+              ),
             ],
           ),
         ],
