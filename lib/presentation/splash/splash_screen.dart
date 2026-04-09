@@ -3,8 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:jay2xcoder/core/constants/app_constants.dart';
-import 'package:jay2xcoder/providers/app_providers.dart';
 import 'package:jay2xcoder/presentation/shared/widgets/reference_kit.dart';
+import 'package:jay2xcoder/providers/app_providers.dart';
 
 class SplashScreen extends ConsumerStatefulWidget {
   const SplashScreen({super.key});
@@ -39,37 +39,53 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
+    final bool dark = theme.brightness == Brightness.dark;
 
     return Scaffold(
-      body: ReferenceBackground(
+      body: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: dark
+                ? const <Color>[Color(0xFF172033), Color(0xFF0F172A)]
+                : const <Color>[Color(0xFFBFD8F9), Color(0xFF8BB7EE)],
+          ),
+        ),
         child: SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.fromLTRB(24, 24, 24, 26),
-            child: AnimatedOpacity(
-              opacity: _visible ? 1 : 0,
-              duration: const Duration(milliseconds: 650),
-              curve: Curves.easeOut,
+          child: AnimatedOpacity(
+            opacity: _visible ? 1 : 0,
+            duration: const Duration(milliseconds: 650),
+            curve: Curves.easeOut,
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(24, 20, 24, 20),
               child: Column(
                 children: <Widget>[
                   const Spacer(),
                   Text(
                     AppConstants.appName,
                     style: theme.textTheme.headlineMedium?.copyWith(
-                      color: ReferencePalette.textPrimary,
-                      fontWeight: FontWeight.w800,
+                      color: dark
+                          ? Colors.white
+                          : ReferencePalette.onSurface(context),
+                      fontWeight: FontWeight.w600,
                     ),
                   ),
                   const SizedBox(height: 6),
                   Text(
                     'Learn coding step by step',
-                    style: theme.textTheme.bodyLarge?.copyWith(
-                      color: ReferencePalette.textMuted,
+                    style: theme.textTheme.bodyMedium?.copyWith(
+                      color: dark
+                          ? Colors.white70
+                          : ReferencePalette.onSurface(
+                              context,
+                            ).withValues(alpha: 0.75),
                     ),
                   ),
                   const Spacer(),
                   SvgPicture.asset(
-                    'assets/illustrations/programming.svg',
-                    height: 200,
+                    'assets/illustrations/splash_programming.svg',
+                    height: 220,
                     fit: BoxFit.contain,
                   ),
                 ],

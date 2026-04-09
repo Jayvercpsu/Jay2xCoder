@@ -53,16 +53,19 @@ final List<LearningLevel> mockLevels = <LearningLevel>[
         levelId: 'lv1',
         order: 1,
         title: 'What Is Programming?',
-        shortExplanation: 'Programming gives instructions to computers.',
+        shortExplanation:
+            'Programming gives clear instructions that computers follow exactly.',
         detailedExplanation:
-            'Computers follow exact steps. Developers break big tasks into small clear instructions.',
-        example: 'Task: boil water -> add tea bag -> pour -> wait -> serve.',
+            'Programming is problem solving using precise steps. In web development, we also organize files clearly: `<!DOCTYPE html>` declares HTML5, `<html>` wraps the whole page, `<head>` stores metadata and links, and `<body>` contains visible content.',
+        example:
+            '<!DOCTYPE html>\\n<html>\\n  <head><title>My Page</title></head>\\n  <body><h1>Hello</h1></body>\\n</html>',
         keyTakeaways: <String>[
-          'Computers need clear instructions.',
-          'Programming solves problems.',
-          'Think in small steps.',
+          'Computers need exact and organized instructions.',
+          'Always understand structure before styling or scripting.',
+          'Know opening and closing tags like <body> ... </body>.',
         ],
-        miniActivity: 'Write 3 steps for creating a new file on your laptop.',
+        miniActivity:
+            'Explain what doctype, html, head, and body do in one sentence each.',
         techIconAsset: 'assets/tech/flutter.svg',
         techLabel: 'Programming',
       ),
@@ -101,12 +104,13 @@ final List<LearningLevel> mockLevels = <LearningLevel>[
         title: 'HTML Structure and Tags',
         shortExplanation: 'HTML defines structure of a web page.',
         detailedExplanation:
-            'A page commonly has doctype, html, head, and body. In the body, we place visible content.',
-        example: '<h1>Hello</h1>\n<p>Welcome to coding.</p>',
+            'A complete page starts with doctype, then html, head, and body. Common tags include headings (`h1-h6`), paragraph (`p`), link (`a`), image (`img`), list (`ul`/`ol`/`li`), division (`div`), section (`section`), and form tags.',
+        example:
+            '<h1>Hello</h1>\\n<p>Welcome to coding.</p>\\n<a href="#">Open</a>\\n<ul><li>Item</li></ul>',
         keyTakeaways: <String>[
-          'Structure comes first.',
-          'Use headings and paragraphs.',
-          'Keep markup readable.',
+          'Structure comes first before CSS and JS.',
+          'Use semantic tags for readability and accessibility.',
+          'Close paired tags correctly.',
         ],
         miniActivity: 'Create a mini profile page with title and paragraph.',
         techIconAsset: 'assets/tech/html5.svg',

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:go_router/go_router.dart';
 import 'package:jay2xcoder/core/constants/progression_utils.dart';
 import 'package:jay2xcoder/core/extensions/l10n_extension.dart';
@@ -79,7 +80,7 @@ class LessonScreen extends ConsumerWidget {
                                 maxLines: 2,
                                 overflow: TextOverflow.ellipsis,
                                 style: theme.textTheme.headlineSmall?.copyWith(
-                                  color: ReferencePalette.textPrimary,
+                                  color: ReferencePalette.onSurface(context),
                                   fontWeight: FontWeight.w800,
                                 ),
                               ),
@@ -108,14 +109,14 @@ class LessonScreen extends ConsumerWidget {
                                 'What is this?',
                                 style: theme.textTheme.titleMedium?.copyWith(
                                   fontWeight: FontWeight.w800,
-                                  color: ReferencePalette.textPrimary,
+                                  color: ReferencePalette.onSurface(context),
                                 ),
                               ),
                               const SizedBox(height: 8),
                               Text(
                                 intro,
                                 style: theme.textTheme.bodyMedium?.copyWith(
-                                  color: ReferencePalette.textMuted,
+                                  color: ReferencePalette.onMuted(context),
                                   height: 1.45,
                                 ),
                               ),
@@ -124,7 +125,7 @@ class LessonScreen extends ConsumerWidget {
                                 'Example',
                                 style: theme.textTheme.titleSmall?.copyWith(
                                   fontWeight: FontWeight.w800,
-                                  color: ReferencePalette.textPrimary,
+                                  color: ReferencePalette.onSurface(context),
                                 ),
                               ),
                               const SizedBox(height: 8),
@@ -132,14 +133,15 @@ class LessonScreen extends ConsumerWidget {
                                 width: double.infinity,
                                 padding: const EdgeInsets.all(12),
                                 decoration: BoxDecoration(
-                                  color: const Color(0xFF1E2536),
-                                  borderRadius: BorderRadius.circular(12),
+                                  color: ReferencePalette.codeBackground,
+                                  borderRadius: BorderRadius.circular(16),
                                 ),
                                 child: Text(
                                   lesson.example,
-                                  style: theme.textTheme.bodySmall?.copyWith(
-                                    color: const Color(0xFFB9E4FF),
-                                    fontFamily: 'monospace',
+                                  style: GoogleFonts.firaCode(
+                                    fontSize: 12,
+                                    height: 1.4,
+                                    color: const Color(0xFFD1E9FF),
                                   ),
                                 ),
                               ),
@@ -148,7 +150,7 @@ class LessonScreen extends ConsumerWidget {
                                 'Key Notes',
                                 style: theme.textTheme.titleSmall?.copyWith(
                                   fontWeight: FontWeight.w800,
-                                  color: ReferencePalette.textPrimary,
+                                  color: ReferencePalette.onSurface(context),
                                 ),
                               ),
                               const SizedBox(height: 8),
@@ -166,7 +168,8 @@ class LessonScreen extends ConsumerWidget {
                                             child: Icon(
                                               Icons.circle,
                                               size: 8,
-                                              color: ReferencePalette.primary,
+                                              color:
+                                                  ReferencePalette.accentStart,
                                             ),
                                           ),
                                           const SizedBox(width: 8),
@@ -176,7 +179,7 @@ class LessonScreen extends ConsumerWidget {
                                               style: theme.textTheme.bodySmall
                                                   ?.copyWith(
                                                     color: ReferencePalette
-                                                        .textMuted,
+                                                        .mutedText,
                                                   ),
                                             ),
                                           ),
@@ -188,7 +191,7 @@ class LessonScreen extends ConsumerWidget {
                               Text(
                                 output,
                                 style: theme.textTheme.bodySmall?.copyWith(
-                                  color: ReferencePalette.textMuted,
+                                  color: ReferencePalette.onMuted(context),
                                 ),
                               ),
                             ],
@@ -266,7 +269,7 @@ class LessonScreen extends ConsumerWidget {
                               Icon(
                                 Icons.lock_outline_rounded,
                                 size: 42,
-                                color: ReferencePalette.primary,
+                                color: ReferencePalette.accentStart,
                               ),
                               SizedBox(height: 10),
                               Text('Lesson is locked right now.'),

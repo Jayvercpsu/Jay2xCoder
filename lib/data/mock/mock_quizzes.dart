@@ -176,6 +176,146 @@ Map<String, LessonQuiz> _buildGenericLessonQuizzes() {
 
 final Map<String, LessonQuiz> mockQuizzes = <String, LessonQuiz>{
   ..._buildGenericLessonQuizzes(),
+  'l1_1': _quiz('l1_1', <QuizQuestion>[
+    _q(
+      id: 'q111',
+      type: QuizQuestionType.identification,
+      question: _t(
+        'What is programming?',
+        ceb: 'Unsa ang programming?',
+        fil: 'Ano ang programming?',
+      ),
+      options: <LocalizedText>[
+        _t(
+          'Writing clear instructions for a computer',
+          ceb: 'Pagsulat og klaro nga instructions para sa computer',
+          fil: 'Pagsulat ng malinaw na instructions para sa computer',
+        ),
+        _t(
+          'Only designing app colors',
+          ceb: 'Pag-design ra sa app colors',
+          fil: 'Pag-design lang ng app colors',
+        ),
+        _t(
+          'Buying a laptop',
+          ceb: 'Pagpalit og laptop',
+          fil: 'Pagbili ng laptop',
+        ),
+        _t(
+          'Typing without logic',
+          ceb: 'Pag-type nga walay logic',
+          fil: 'Pagta-type na walang logic',
+        ),
+      ],
+      answer: 0,
+      explanation: _t(
+        'Programming means solving problems by giving exact step-by-step instructions.',
+        ceb:
+            'Ang programming mao ang pagsulbad sa problema pinaagi sa exact step-by-step instructions.',
+        fil:
+            'Ang programming ay paglutas ng problema gamit ang eksaktong step-by-step instructions.',
+      ),
+    ),
+    _q(
+      id: 'q112',
+      type: QuizQuestionType.multipleChoice,
+      question: _t(
+        'Which line declares an HTML5 document?',
+        ceb: 'Unsa nga line ang nag-declare og HTML5 document?',
+        fil: 'Aling line ang nagde-declare ng HTML5 document?',
+      ),
+      options: <LocalizedText>[
+        _t('<!DOCTYPE html>'),
+        _t('<document html>'),
+        _t('<html5>'),
+        _t('<meta html5>'),
+      ],
+      answer: 0,
+      explanation: _t(
+        'Always begin with <!DOCTYPE html> so the browser uses modern HTML rules.',
+      ),
+    ),
+    _q(
+      id: 'q113',
+      type: QuizQuestionType.multipleChoice,
+      question: _t(
+        'Where should metadata and page title usually be placed?',
+        ceb: 'Asa ibutang ang metadata ug page title?',
+        fil: 'Saan inilalagay ang metadata at page title?',
+      ),
+      options: <LocalizedText>[
+        _t('<head>'),
+        _t('<body>'),
+        _t('<footer>'),
+        _t('<section>'),
+      ],
+      answer: 0,
+      explanation: _t(
+        '<head> keeps document info like title, meta, and links to CSS.',
+      ),
+    ),
+    _q(
+      id: 'q114',
+      type: QuizQuestionType.multipleChoice,
+      question: _t(
+        'Which section contains visible web page content?',
+        ceb: 'Asa nga section naa ang makita nga content sa webpage?',
+        fil: 'Aling section ang may nakikitang content ng webpage?',
+      ),
+      options: <LocalizedText>[
+        _t('<body>'),
+        _t('<head>'),
+        _t('<meta>'),
+        _t('<script setup>'),
+      ],
+      answer: 0,
+      explanation: _t(
+        'Headings, paragraphs, links, lists, forms, and images are normally inside <body>.',
+      ),
+    ),
+    _q(
+      id: 'q115',
+      type: QuizQuestionType.trueFalse,
+      question: _t(
+        'Closing tags are important to keep HTML structure valid.',
+        ceb: 'Importante ang closing tags aron valid ang HTML structure.',
+        fil: 'Mahalaga ang closing tags para valid ang HTML structure.',
+      ),
+      options: _tf(),
+      answer: 0,
+      explanation: _t(
+        'Most paired tags should be closed (for example: <body> ... </body>).',
+      ),
+    ),
+    _q(
+      id: 'q116',
+      type: QuizQuestionType.codeMeaning,
+      codeLine: '<html> ... </html>',
+      question: _t('What does this pair do?'),
+      options: <LocalizedText>[
+        _t('Wraps the entire HTML document'),
+        _t('Styles the page'),
+        _t('Runs JavaScript'),
+        _t('Shows browser notifications'),
+      ],
+      answer: 0,
+      explanation: _t('The <html> root element encloses head and body.'),
+    ),
+    _q(
+      id: 'q117',
+      type: QuizQuestionType.codeMeaning,
+      codeLine: '<body> ... </body>',
+      question: _t('What is inside this section?'),
+      options: <LocalizedText>[
+        _t('Content users can see on screen'),
+        _t('Only app settings'),
+        _t('Only comments'),
+        _t('Only file names'),
+      ],
+      answer: 0,
+      explanation: _t('Visual content for users belongs in <body>.'),
+    ),
+  ]),
   'l2_1': _quiz('l2_1', <QuizQuestion>[
     _q(
       id: 'q211',

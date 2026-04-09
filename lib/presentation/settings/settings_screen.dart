@@ -210,14 +210,24 @@ class SettingsScreen extends ConsumerWidget {
         return AlertDialog(
           title: Text(l10n.settingsResetDialogTitle),
           content: Text(l10n.settingsResetDialogMessage),
+          actionsPadding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
           actions: <Widget>[
-            TextButton(
-              onPressed: () => Navigator.pop(context, false),
-              child: Text(l10n.commonCancel),
-            ),
-            ElevatedButton(
-              onPressed: () => Navigator.pop(context, true),
-              child: Text(l10n.commonReset),
+            Row(
+              children: <Widget>[
+                Expanded(
+                  child: OutlinedButton(
+                    onPressed: () => Navigator.pop(context, false),
+                    child: Text(l10n.commonCancel),
+                  ),
+                ),
+                const SizedBox(width: 10),
+                Expanded(
+                  child: ElevatedButton(
+                    onPressed: () => Navigator.pop(context, true),
+                    child: Text(l10n.commonReset),
+                  ),
+                ),
+              ],
             ),
           ],
         );

@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:jay2xcoder/core/extensions/l10n_extension.dart';
 import 'package:jay2xcoder/core/constants/progression_utils.dart';
+import 'package:jay2xcoder/core/extensions/l10n_extension.dart';
 import 'package:jay2xcoder/core/localization/localization_helpers.dart';
 import 'package:jay2xcoder/data/models/learning_level.dart';
 import 'package:jay2xcoder/data/models/lesson_item.dart';
 import 'package:jay2xcoder/presentation/shared/widgets/dev_background.dart';
 import 'package:jay2xcoder/presentation/shared/widgets/progress_ring.dart';
 import 'package:jay2xcoder/presentation/shared/widgets/reference_kit.dart';
+import 'package:jay2xcoder/presentation/shared/widgets/stagger_reveal.dart';
 import 'package:jay2xcoder/presentation/shared/widgets/tech_icon.dart';
 import 'package:jay2xcoder/providers/app_providers.dart';
 
@@ -29,7 +30,17 @@ class HomeScreen extends ConsumerWidget {
       for (final LearningLevel level in levels) ...sortLessons(level.lessons),
     ];
 
-    final List<LessonItem> featured = lessons.take(4).toList();
+    final Map<String, LessonItem> byId = <String, LessonItem>{
+      for (final LessonItem lesson in lessons) lesson.id: lesson,
+    };
+
+    final List<LessonItem> featured = <String>[
+      'l2_1',
+      'l3_1',
+      'l4_1',
+      'l5_1',
+    ].map((String id) => byId[id]).whereType<LessonItem>().toList();
+
     final String quote = localizedQuote(l10n, quoteIndex);
 
     final _TechProgress htmlProgress = _techProgress(
@@ -68,66 +79,67 @@ class HomeScreen extends ConsumerWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 ReferenceTopTitle(
-                  title: 'Hi ${appState.learnerName},',
+                  title: 'Hi ${appState.learnerName}',
                   subtitle: 'Ready to learn today?',
                   trailing: IconButton(
                     onPressed: () => context.push('/settings'),
-                    icon: const Icon(Icons.notifications_none_rounded),
+                    icon: const Icon(Icons.settings_outlined),
                   ),
                 ),
                 const SizedBox(height: 12),
-                ReferenceCard(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Text(
-                        'Continue Learning',
-                        style: theme.textTheme.titleMedium?.copyWith(
-                          color: ReferencePalette.textPrimary,
-                          fontWeight: FontWeight.w800,
+                StaggerReveal(
+                  index: 0,
+                  child: ReferenceCard(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Text(
+                          'Continue Learning',
+                          style: theme.textTheme.titleSmall?.copyWith(
+                            color: ReferencePalette.onSurface(context),
+                          ),
                         ),
-                      ),
-                      const SizedBox(height: 8),
-                      Text(
-                        next == null
-                            ? 'All lessons completed.'
-                            : localizedLessonTitle(l10n, next),
-                        style: theme.textTheme.titleSmall?.copyWith(
-                          color: ReferencePalette.textPrimary,
-                          fontWeight: FontWeight.w700,
+                        const SizedBox(height: 8),
+                        Text(
+                          next == null
+                              ? 'All lessons completed.'
+                              : localizedLessonTitle(l10n, next),
+                          style: theme.textTheme.titleMedium?.copyWith(
+                            color: ReferencePalette.onSurface(context),
+                          ),
                         ),
-                      ),
-                      const SizedBox(height: 2),
-                      Text(
-                        next == null
-                            ? 'Great work! review your roadmap.'
-                            : '${(mastery * 100).round()}% complete',
-                        style: theme.textTheme.bodySmall?.copyWith(
-                          color: ReferencePalette.textMuted,
+                        const SizedBox(height: 2),
+                        Text(
+                          next == null
+                              ? 'Great work! review your roadmap.'
+                              : '[${(mastery * 100).round()}%]',
+                          style: theme.textTheme.bodySmall?.copyWith(
+                            color: ReferencePalette.onMuted(context),
+                          ),
                         ),
-                      ),
-                      const SizedBox(height: 10),
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(10),
-                        child: LinearProgressIndicator(
-                          minHeight: 8,
-                          value: mastery,
-                          color: ReferencePalette.primary,
-                          backgroundColor: const Color(0xFFD7DFF1),
+                        const SizedBox(height: 12),
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(999),
+                          child: LinearProgressIndicator(
+                            minHeight: 14,
+                            value: mastery,
+                            color: ReferencePalette.accentStart,
+                            backgroundColor: const Color(0xFFE2E8F0),
+                          ),
                         ),
-                      ),
-                      const SizedBox(height: 12),
-                      ReferencePrimaryButton(
-                        label: next == null ? 'View Lessons' : 'Continue',
-                        onPressed: () {
-                          if (next == null) {
-                            context.go('/roadmap');
-                            return;
-                          }
-                          context.push('/lesson/${next.id}');
-                        },
-                      ),
-                    ],
+                        const SizedBox(height: 12),
+                        ReferencePrimaryButton(
+                          label: next == null ? 'View Lessons' : 'Continue',
+                          onPressed: () {
+                            if (next == null) {
+                              context.go('/roadmap');
+                              return;
+                            }
+                            context.push('/lesson/${next.id}');
+                          },
+                        ),
+                      ],
+                    ),
                   ),
                 ),
                 const SizedBox(height: 14),
@@ -135,9 +147,8 @@ class HomeScreen extends ConsumerWidget {
                   children: <Widget>[
                     Text(
                       'Featured Courses',
-                      style: theme.textTheme.titleMedium?.copyWith(
-                        color: ReferencePalette.textPrimary,
-                        fontWeight: FontWeight.w800,
+                      style: theme.textTheme.titleSmall?.copyWith(
+                        color: ReferencePalette.onSurface(context),
                       ),
                     ),
                     const Spacer(),
@@ -148,98 +159,106 @@ class HomeScreen extends ConsumerWidget {
                   ],
                 ),
                 const SizedBox(height: 6),
-                SizedBox(
-                  height: 160,
-                  child: ListView.separated(
-                    scrollDirection: Axis.horizontal,
-                    itemCount: featured.length,
-                    separatorBuilder: (_, _) => const SizedBox(width: 10),
-                    itemBuilder: (BuildContext context, int index) {
-                      final LessonItem lesson = featured[index];
-                      final List<Color> colors = <Color>[
-                        const Color(0xFFFFEFC7),
-                        const Color(0xFFDFF0FF),
-                        const Color(0xFFE6F7F2),
-                        const Color(0xFFFBE5DF),
-                      ];
+                StaggerReveal(
+                  index: 1,
+                  child: SizedBox(
+                    height: 170,
+                    child: ListView.separated(
+                      scrollDirection: Axis.horizontal,
+                      itemCount: featured.length,
+                      separatorBuilder: (_, _) => const SizedBox(width: 10),
+                      itemBuilder: (BuildContext context, int index) {
+                        final LessonItem lesson = featured[index];
+                        final List<Color> colors = <Color>[
+                          const Color(0xFFFFF4D9),
+                          const Color(0xFFE4F0FF),
+                          const Color(0xFFE7FBF6),
+                          const Color(0xFFF8EFFF),
+                        ];
 
-                      return _FeaturedTile(
-                        lesson: lesson,
-                        color: colors[index % colors.length],
-                        onTap: () => context.push('/lesson/${lesson.id}'),
-                      );
-                    },
+                        return _FeaturedTile(
+                          lesson: lesson,
+                          color: colors[index % colors.length],
+                          onTap: () => context.push('/lesson/${lesson.id}'),
+                        );
+                      },
+                    ),
                   ),
                 ),
                 const SizedBox(height: 14),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Expanded(
-                      child: ReferenceCard(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Text(
-                              'Daily Tip',
-                              style: theme.textTheme.titleSmall?.copyWith(
-                                fontWeight: FontWeight.w800,
-                                color: ReferencePalette.textPrimary,
-                              ),
-                            ),
-                            const SizedBox(height: 8),
-                            Text(
-                              quote,
-                              style: theme.textTheme.bodySmall?.copyWith(
-                                color: ReferencePalette.textMuted,
-                                height: 1.4,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                    const SizedBox(width: 10),
-                    ReferenceCard(
-                      padding: const EdgeInsets.all(8),
-                      child: ProgressRing(value: mastery, label: 'Progress'),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 14),
-                ReferenceCard(
-                  child: Column(
+                StaggerReveal(
+                  index: 2,
+                  child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      Text(
-                        'Progress Overview',
-                        style: theme.textTheme.titleSmall?.copyWith(
-                          fontWeight: FontWeight.w800,
-                          color: ReferencePalette.textPrimary,
+                      Expanded(
+                        child: ReferenceCard(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Text(
+                                'Daily Tip',
+                                style: theme.textTheme.titleSmall?.copyWith(
+                                  color: ReferencePalette.onSurface(context),
+                                ),
+                              ),
+                              const SizedBox(height: 8),
+                              Text(
+                                quote,
+                                style: theme.textTheme.bodySmall?.copyWith(
+                                  color: ReferencePalette.onMuted(context),
+                                  height: 1.4,
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
-                      const SizedBox(height: 10),
-                      _ProgressBar(
-                        label: 'HTML',
-                        progress: htmlProgress.progress,
-                        rightText: '${htmlProgress.done}/${htmlProgress.total}',
-                        color: const Color(0xFFF08B54),
-                      ),
-                      const SizedBox(height: 8),
-                      _ProgressBar(
-                        label: 'CSS',
-                        progress: cssProgress.progress,
-                        rightText: '${cssProgress.done}/${cssProgress.total}',
-                        color: const Color(0xFF6EC2E8),
-                      ),
-                      const SizedBox(height: 8),
-                      _ProgressBar(
-                        label: 'JS',
-                        progress: jsProgress.progress,
-                        rightText: '${jsProgress.done}/${jsProgress.total}',
-                        color: const Color(0xFFF3D45A),
+                      const SizedBox(width: 10),
+                      ReferenceCard(
+                        padding: const EdgeInsets.all(10),
+                        child: ProgressRing(value: mastery, label: 'Progress'),
                       ),
                     ],
+                  ),
+                ),
+                const SizedBox(height: 14),
+                StaggerReveal(
+                  index: 3,
+                  child: ReferenceCard(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Text(
+                          'Progress Overview',
+                          style: theme.textTheme.titleSmall?.copyWith(
+                            color: ReferencePalette.onSurface(context),
+                          ),
+                        ),
+                        const SizedBox(height: 12),
+                        _ProgressBar(
+                          label: 'HTML',
+                          progress: htmlProgress.progress,
+                          rightText:
+                              '${htmlProgress.done}/${htmlProgress.total}',
+                          color: const Color(0xFFE67E22),
+                        ),
+                        const SizedBox(height: 10),
+                        _ProgressBar(
+                          label: 'CSS',
+                          progress: cssProgress.progress,
+                          rightText: '${cssProgress.done}/${cssProgress.total}',
+                          color: ReferencePalette.softTeal,
+                        ),
+                        const SizedBox(height: 10),
+                        _ProgressBar(
+                          label: 'JS',
+                          progress: jsProgress.progress,
+                          rightText: '${jsProgress.done}/${jsProgress.total}',
+                          color: const Color(0xFFF1C40F),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ],
@@ -295,35 +314,35 @@ class _FeaturedTile extends StatelessWidget {
     final ThemeData theme = Theme.of(context);
 
     return InkWell(
-      borderRadius: BorderRadius.circular(16),
+      borderRadius: BorderRadius.circular(24),
       onTap: onTap,
       child: Container(
-        width: 132,
+        width: 138,
         padding: const EdgeInsets.all(12),
         decoration: BoxDecoration(
           color: color,
-          borderRadius: BorderRadius.circular(16),
+          borderRadius: BorderRadius.circular(24),
           border: Border.all(color: ReferencePalette.border),
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Container(
-              width: 46,
-              height: 46,
+              width: 52,
+              height: 52,
               decoration: BoxDecoration(
-                color: Colors.white.withValues(alpha: 0.8),
-                borderRadius: BorderRadius.circular(12),
+                color: Colors.white.withValues(alpha: 0.86),
+                borderRadius: BorderRadius.circular(16),
               ),
               child: Center(
-                child: TechIcon(asset: lesson.techIconAsset, size: 26),
+                child: TechIcon(asset: lesson.techIconAsset, size: 32),
               ),
             ),
             const Spacer(),
             Text(
               lesson.techLabel.toUpperCase(),
               style: theme.textTheme.labelSmall?.copyWith(
-                color: ReferencePalette.textMuted,
+                color: ReferencePalette.onMuted(context),
                 fontWeight: FontWeight.w700,
               ),
             ),
@@ -333,8 +352,8 @@ class _FeaturedTile extends StatelessWidget {
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
               style: theme.textTheme.bodySmall?.copyWith(
-                color: ReferencePalette.textPrimary,
-                fontWeight: FontWeight.w700,
+                color: ReferencePalette.onSurface(context),
+                fontWeight: FontWeight.w600,
               ),
             ),
           ],
@@ -368,7 +387,7 @@ class _ProgressBar extends StatelessWidget {
             Text(
               label,
               style: theme.textTheme.bodySmall?.copyWith(
-                color: ReferencePalette.textPrimary,
+                color: ReferencePalette.onSurface(context),
                 fontWeight: FontWeight.w700,
               ),
             ),
@@ -376,19 +395,19 @@ class _ProgressBar extends StatelessWidget {
             Text(
               rightText,
               style: theme.textTheme.bodySmall?.copyWith(
-                color: ReferencePalette.textMuted,
+                color: ReferencePalette.onMuted(context),
               ),
             ),
           ],
         ),
-        const SizedBox(height: 4),
+        const SizedBox(height: 6),
         ClipRRect(
           borderRadius: BorderRadius.circular(999),
           child: LinearProgressIndicator(
             value: progress.clamp(0, 1),
-            minHeight: 6,
+            minHeight: 14,
             color: color,
-            backgroundColor: const Color(0xFFE5EBF8),
+            backgroundColor: const Color(0xFFE2E8F0),
           ),
         ),
       ],

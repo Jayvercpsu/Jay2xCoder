@@ -9,6 +9,7 @@ import 'package:jay2xcoder/data/models/learning_level.dart';
 import 'package:jay2xcoder/data/models/lesson_item.dart';
 import 'package:jay2xcoder/presentation/shared/widgets/dev_background.dart';
 import 'package:jay2xcoder/presentation/shared/widgets/reference_kit.dart';
+import 'package:jay2xcoder/presentation/shared/widgets/stagger_reveal.dart';
 import 'package:jay2xcoder/presentation/shared/widgets/tech_icon.dart';
 import 'package:jay2xcoder/providers/app_providers.dart';
 
@@ -142,106 +143,117 @@ class _RoadmapScreenState extends ConsumerState<RoadmapScreen> {
                     ];
                     final Color cardColor = colors[index % colors.length];
 
-                    return InkWell(
-                      borderRadius: BorderRadius.circular(18),
-                      onTap: unlocked
-                          ? () => context.push('/lesson/${item.lesson.id}')
-                          : () {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                  content: Text(
-                                    'Complete previous lessons first.',
-                                  ),
-                                ),
-                              );
-                            },
-                      child: ReferenceCard(
-                        color: cardColor,
-                        child: Row(
-                          children: <Widget>[
-                            Expanded(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: <Widget>[
-                                  Text(
-                                    localizedLessonTitle(l10n, item.lesson),
-                                    style: theme.textTheme.titleSmall?.copyWith(
-                                      fontWeight: FontWeight.w800,
-                                      color: ReferencePalette.textPrimary,
+                    return StaggerReveal(
+                      index: index,
+                      child: InkWell(
+                        borderRadius: BorderRadius.circular(18),
+                        onTap: unlocked
+                            ? () => context.push('/lesson/${item.lesson.id}')
+                            : () {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content: Text(
+                                      'Complete previous lessons first.',
                                     ),
                                   ),
-                                  const SizedBox(height: 2),
-                                  Text(
-                                    item.lesson.shortExplanation,
-                                    maxLines: 1,
-                                    overflow: TextOverflow.ellipsis,
-                                    style: theme.textTheme.bodySmall?.copyWith(
-                                      color: ReferencePalette.textMuted,
+                                );
+                              },
+                        child: ReferenceCard(
+                          color: cardColor,
+                          child: Row(
+                            children: <Widget>[
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: <Widget>[
+                                    Text(
+                                      localizedLessonTitle(l10n, item.lesson),
+                                      style: theme.textTheme.titleSmall
+                                          ?.copyWith(
+                                            fontWeight: FontWeight.w800,
+                                            color: ReferencePalette.onSurface(
+                                              context,
+                                            ),
+                                          ),
+                                    ),
+                                    const SizedBox(height: 2),
+                                    Text(
+                                      item.lesson.shortExplanation,
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: theme.textTheme.bodySmall
+                                          ?.copyWith(
+                                            color: ReferencePalette.onMuted(
+                                              context,
+                                            ),
+                                          ),
+                                    ),
+                                    const SizedBox(height: 8),
+                                    Row(
+                                      children: <Widget>[
+                                        Container(
+                                          padding: const EdgeInsets.symmetric(
+                                            horizontal: 8,
+                                            vertical: 4,
+                                          ),
+                                          decoration: BoxDecoration(
+                                            color: ReferencePalette.accentStart,
+                                            borderRadius: BorderRadius.circular(
+                                              999,
+                                            ),
+                                          ),
+                                          child: Text(
+                                            done
+                                                ? 'Completed'
+                                                : unlocked
+                                                ? 'Beginner'
+                                                : 'Locked',
+                                            style: theme.textTheme.labelSmall
+                                                ?.copyWith(
+                                                  color: Colors.white,
+                                                  fontWeight: FontWeight.w700,
+                                                ),
+                                          ),
+                                        ),
+                                        const SizedBox(width: 8),
+                                        Text(
+                                          item.lesson.techLabel,
+                                          style: theme.textTheme.labelSmall
+                                              ?.copyWith(
+                                                color: ReferencePalette.onMuted(
+                                                  context,
+                                                ),
+                                              ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              const SizedBox(width: 8),
+                              Column(
+                                children: <Widget>[
+                                  SizedBox(
+                                    width: 48,
+                                    height: 48,
+                                    child: TechIcon(
+                                      asset: item.lesson.techIconAsset,
+                                      size: 38,
                                     ),
                                   ),
                                   const SizedBox(height: 8),
-                                  Row(
-                                    children: <Widget>[
-                                      Container(
-                                        padding: const EdgeInsets.symmetric(
-                                          horizontal: 8,
-                                          vertical: 4,
-                                        ),
-                                        decoration: BoxDecoration(
-                                          color: ReferencePalette.primary,
-                                          borderRadius: BorderRadius.circular(
-                                            999,
-                                          ),
-                                        ),
-                                        child: Text(
-                                          done
-                                              ? 'Completed'
-                                              : unlocked
-                                              ? 'Beginner'
-                                              : 'Locked',
-                                          style: theme.textTheme.labelSmall
-                                              ?.copyWith(
-                                                color: Colors.white,
-                                                fontWeight: FontWeight.w700,
-                                              ),
-                                        ),
-                                      ),
-                                      const SizedBox(width: 8),
-                                      Text(
-                                        item.lesson.techLabel,
-                                        style: theme.textTheme.labelSmall
-                                            ?.copyWith(
-                                              color: ReferencePalette.textMuted,
-                                            ),
-                                      ),
-                                    ],
+                                  Icon(
+                                    done
+                                        ? Icons.check_circle_rounded
+                                        : Icons.chevron_right_rounded,
+                                    color: done
+                                        ? Colors.green
+                                        : ReferencePalette.onMuted(context),
                                   ),
                                 ],
                               ),
-                            ),
-                            const SizedBox(width: 8),
-                            Column(
-                              children: <Widget>[
-                                SizedBox(
-                                  width: 48,
-                                  height: 48,
-                                  child: TechIcon(
-                                    asset: item.lesson.techIconAsset,
-                                    size: 38,
-                                  ),
-                                ),
-                                const SizedBox(height: 8),
-                                Icon(
-                                  done
-                                      ? Icons.check_circle_rounded
-                                      : Icons.chevron_right_rounded,
-                                  color: done
-                                      ? Colors.green
-                                      : ReferencePalette.textMuted,
-                                ),
-                              ],
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       ),
                     );
@@ -282,14 +294,16 @@ class _TabPill extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 7),
         decoration: BoxDecoration(
-          color: selected ? ReferencePalette.primary : Colors.white,
+          color: selected ? ReferencePalette.accentStart : Colors.white,
           borderRadius: BorderRadius.circular(999),
           border: Border.all(color: ReferencePalette.border),
         ),
         child: Text(
           label,
           style: Theme.of(context).textTheme.labelSmall?.copyWith(
-            color: selected ? Colors.white : ReferencePalette.textPrimary,
+            color: selected
+                ? Colors.white
+                : ReferencePalette.onSurface(context),
             fontWeight: FontWeight.w700,
           ),
         ),

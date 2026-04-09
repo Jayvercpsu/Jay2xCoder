@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:lucide_icons/lucide_icons.dart';
 import 'package:jay2xcoder/presentation/shared/widgets/reference_kit.dart';
 
 class AppShell extends StatelessWidget {
@@ -26,49 +27,49 @@ class AppShell extends StatelessWidget {
         minimum: const EdgeInsets.fromLTRB(10, 0, 10, 10),
         child: Container(
           decoration: BoxDecoration(
-            color: ReferencePalette.surface.withValues(alpha: 0.96),
-            borderRadius: BorderRadius.circular(22),
-            border: Border.all(color: ReferencePalette.border),
+            color: ReferencePalette.card(context).withValues(alpha: 0.97),
+            borderRadius: BorderRadius.circular(24),
+            border: Border.all(color: ReferencePalette.cardBorder(context)),
             boxShadow: <BoxShadow>[
               BoxShadow(
                 color: Colors.black.withValues(
-                  alpha: theme.brightness == Brightness.dark ? 0.25 : 0.10,
+                  alpha: theme.brightness == Brightness.dark ? 0.24 : 0.08,
                 ),
-                blurRadius: 22,
+                blurRadius: 24,
                 offset: const Offset(0, 10),
               ),
             ],
           ),
           child: ClipRRect(
-            borderRadius: BorderRadius.circular(22),
+            borderRadius: BorderRadius.circular(24),
             child: NavigationBar(
               selectedIndex: navigationShell.currentIndex,
               onDestinationSelected: _onTap,
               backgroundColor: Colors.transparent,
               destinations: const <NavigationDestination>[
                 NavigationDestination(
-                  icon: Icon(Icons.home_outlined),
-                  selectedIcon: Icon(Icons.home_rounded),
+                  icon: Icon(LucideIcons.home),
+                  selectedIcon: Icon(LucideIcons.home),
                   label: 'Home',
                 ),
                 NavigationDestination(
-                  icon: Icon(Icons.menu_book_outlined),
-                  selectedIcon: Icon(Icons.menu_book_rounded),
+                  icon: Icon(LucideIcons.bookOpen),
+                  selectedIcon: Icon(LucideIcons.bookOpen),
                   label: 'Lessons',
                 ),
                 NavigationDestination(
-                  icon: Icon(Icons.play_circle_outline_rounded),
-                  selectedIcon: Icon(Icons.play_circle_rounded),
+                  icon: Icon(LucideIcons.squareCode),
+                  selectedIcon: Icon(LucideIcons.squareCode),
                   label: 'Practice',
                 ),
                 NavigationDestination(
-                  icon: Icon(Icons.insights_outlined),
-                  selectedIcon: Icon(Icons.insights_rounded),
+                  icon: Icon(LucideIcons.pieChart),
+                  selectedIcon: Icon(LucideIcons.pieChart),
                   label: 'Progress',
                 ),
                 NavigationDestination(
-                  icon: Icon(Icons.info_outline_rounded),
-                  selectedIcon: Icon(Icons.info_rounded),
+                  icon: Icon(LucideIcons.userCircle),
+                  selectedIcon: Icon(LucideIcons.userCircle),
                   label: 'About',
                 ),
               ],

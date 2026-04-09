@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class CodeEditorCard extends StatelessWidget {
   const CodeEditorCard({
@@ -46,7 +47,7 @@ class CodeEditorCard extends StatelessWidget {
               maxLines: null,
               expands: true,
               style: theme.textTheme.bodyMedium?.copyWith(
-                fontFamily: 'monospace',
+                fontFamily: GoogleFonts.firaCode().fontFamily,
                 height: 1.4,
                 color: Colors.black,
               ),

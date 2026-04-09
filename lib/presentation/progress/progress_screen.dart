@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:jay2xcoder/core/constants/progression_utils.dart';
-import 'package:jay2xcoder/core/extensions/l10n_extension.dart';
-import 'package:jay2xcoder/core/localization/localization_helpers.dart';
 import 'package:jay2xcoder/data/models/learning_level.dart';
 import 'package:jay2xcoder/data/models/lesson_item.dart';
 import 'package:jay2xcoder/presentation/shared/widgets/dev_background.dart';
 import 'package:jay2xcoder/presentation/shared/widgets/reference_kit.dart';
+import 'package:jay2xcoder/presentation/shared/widgets/stagger_reveal.dart';
 import 'package:jay2xcoder/presentation/shared/widgets/tech_icon.dart';
 import 'package:jay2xcoder/providers/app_providers.dart';
 
@@ -16,7 +15,6 @@ class ProgressScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final ThemeData theme = Theme.of(context);
-    final l10n = context.l10n;
     final state = ref.watch(appStateControllerProvider);
     final List<LearningLevel> levels = sortLevels(ref.watch(levelsProvider));
 
@@ -62,131 +60,101 @@ class ProgressScreen extends ConsumerWidget {
                   trailing: Text(
                     '[$completedLessons/$totalLessons]',
                     style: theme.textTheme.titleSmall?.copyWith(
-                      color: ReferencePalette.textPrimary,
-                      fontWeight: FontWeight.w800,
+                      color: ReferencePalette.onSurface(context),
+                      fontWeight: FontWeight.w600,
                     ),
                   ),
                 ),
                 const SizedBox(height: 14),
-                ReferenceCard(
-                  child: Column(
-                    children: <Widget>[
-                      _TrackBar(
-                        label: 'HTML',
-                        color: const Color(0xFFF08B54),
-                        value: html.value,
-                        right: '${html.done}',
-                      ),
-                      const SizedBox(height: 10),
-                      _TrackBar(
-                        label: 'CSS',
-                        color: const Color(0xFF67BEE3),
-                        value: css.value,
-                        right: '${css.done}',
-                      ),
-                      const SizedBox(height: 10),
-                      _TrackBar(
-                        label: 'JS',
-                        color: const Color(0xFFF3D353),
-                        value: js.value,
-                        right: '${js.done}',
-                      ),
-                    ],
+                StaggerReveal(
+                  index: 0,
+                  child: ReferenceCard(
+                    child: Column(
+                      children: <Widget>[
+                        _TrackBar(
+                          label: 'HTML',
+                          color: const Color(0xFFE67E22),
+                          value: html.value,
+                          right: '${html.done}',
+                        ),
+                        const SizedBox(height: 12),
+                        _TrackBar(
+                          label: 'CSS',
+                          color: ReferencePalette.softTeal,
+                          value: css.value,
+                          right: '${css.done}',
+                        ),
+                        const SizedBox(height: 12),
+                        _TrackBar(
+                          label: 'JS',
+                          color: const Color(0xFFF1C40F),
+                          value: js.value,
+                          right: '${js.done}',
+                        ),
+                      ],
+                    ),
                   ),
                 ),
                 const SizedBox(height: 12),
-                ReferenceCard(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Text(
-                        'Earned badges',
-                        style: theme.textTheme.titleSmall?.copyWith(
-                          color: ReferencePalette.textPrimary,
-                          fontWeight: FontWeight.w800,
+                StaggerReveal(
+                  index: 1,
+                  child: ReferenceCard(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Text(
+                          'Earned badges',
+                          style: theme.textTheme.titleSmall?.copyWith(
+                            color: ReferencePalette.onSurface(context),
+                          ),
                         ),
-                      ),
-                      const SizedBox(height: 10),
-                      Row(
-                        children: <Widget>[
-                          _BadgeTile(
-                            asset: 'assets/tech/html5.svg',
-                            label: 'HTML\nStarter',
-                          ),
-                          const SizedBox(width: 10),
-                          _BadgeTile(
-                            asset: 'assets/tech/css3.svg',
-                            label: 'CSS\nExplorer',
-                          ),
-                          const SizedBox(width: 10),
-                          _BadgeTile(
-                            asset: 'assets/tech/javascript.svg',
-                            label: 'JS\nExplorer',
-                          ),
-                          const SizedBox(width: 10),
-                          Expanded(
-                            child: Container(
-                              height: 84,
-                              decoration: BoxDecoration(
-                                color: const Color(0xFFF2F6FF),
-                                borderRadius: BorderRadius.circular(14),
-                                border: Border.all(
-                                  color: ReferencePalette.border,
-                                ),
-                              ),
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: <Widget>[
-                                  const Icon(
-                                    Icons.workspace_premium_rounded,
-                                    color: ReferencePalette.primary,
-                                  ),
-                                  const SizedBox(height: 4),
-                                  Text(
-                                    '${state.badges.length}',
-                                    style: theme.textTheme.titleMedium
-                                        ?.copyWith(
-                                          color: ReferencePalette.textPrimary,
-                                          fontWeight: FontWeight.w800,
-                                        ),
-                                  ),
-                                  Text(
-                                    'Total',
-                                    style: theme.textTheme.labelSmall,
-                                  ),
-                                ],
+                        const SizedBox(height: 12),
+                        Row(
+                          children: <Widget>[
+                            const Expanded(
+                              child: _BadgeTile(
+                                logoAsset: 'assets/tech/html5.svg',
+                                label: 'HTML\nStarter',
+                                color: Color(0xFFFFE4D6),
                               ),
                             ),
-                          ),
-                        ],
-                      ),
-                      if (state.badges.isNotEmpty) ...<Widget>[
+                            const SizedBox(width: 10),
+                            const Expanded(
+                              child: _BadgeTile(
+                                logoAsset: 'assets/tech/css3.svg',
+                                label: 'CSS\nExplorer',
+                                color: Color(0xFFDDF2FF),
+                              ),
+                            ),
+                            const SizedBox(width: 10),
+                            const Expanded(
+                              child: _BadgeTile(
+                                logoAsset: 'assets/tech/javascript.svg',
+                                label: 'JS\nExplorer',
+                                color: Color(0xFFFFF4C9),
+                              ),
+                            ),
+                          ],
+                        ),
                         const SizedBox(height: 10),
-                        Wrap(
-                          spacing: 6,
-                          runSpacing: 6,
-                          children: state.badges
-                              .take(5)
-                              .map(
-                                (String id) => Container(
-                                  padding: const EdgeInsets.symmetric(
-                                    horizontal: 9,
-                                    vertical: 5,
-                                  ),
-                                  decoration: BoxDecoration(
-                                    color: const Color(0xFFEEF3FF),
-                                    borderRadius: BorderRadius.circular(999),
-                                  ),
-                                  child: Text(
-                                    localizedBadge(l10n, id),
-                                    style: theme.textTheme.labelSmall,
-                                  ),
-                                ),
-                              )
-                              .toList(),
+                        Container(
+                          width: double.infinity,
+                          padding: const EdgeInsets.all(12),
+                          decoration: BoxDecoration(
+                            color: const Color(0xFFF1F5FF),
+                            borderRadius: BorderRadius.circular(16),
+                            border: Border.all(color: ReferencePalette.border),
+                          ),
+                          child: Text(
+                            'Earned: ${state.badges.length} badge(s)',
+                            style: theme.textTheme.bodyMedium?.copyWith(
+                              color: ReferencePalette.onMuted(context),
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
                         ),
                       ],
-                    ],
+                    ),
                   ),
                 ),
               ],
@@ -238,7 +206,7 @@ class _TrackBar extends StatelessWidget {
           child: Text(
             label,
             style: theme.textTheme.bodySmall?.copyWith(
-              color: ReferencePalette.textPrimary,
+              color: ReferencePalette.onSurface(context),
               fontWeight: FontWeight.w700,
             ),
           ),
@@ -247,10 +215,10 @@ class _TrackBar extends StatelessWidget {
           child: ClipRRect(
             borderRadius: BorderRadius.circular(999),
             child: LinearProgressIndicator(
-              minHeight: 6,
+              minHeight: 14,
               value: value.clamp(0, 1),
               color: color,
-              backgroundColor: const Color(0xFFE6EBF8),
+              backgroundColor: const Color(0xFFE2E8F0),
             ),
           ),
         ),
@@ -261,7 +229,7 @@ class _TrackBar extends StatelessWidget {
             right,
             textAlign: TextAlign.right,
             style: theme.textTheme.bodySmall?.copyWith(
-              color: ReferencePalette.textMuted,
+              color: ReferencePalette.onMuted(context),
             ),
           ),
         ),
@@ -271,38 +239,50 @@ class _TrackBar extends StatelessWidget {
 }
 
 class _BadgeTile extends StatelessWidget {
-  const _BadgeTile({required this.asset, required this.label});
+  const _BadgeTile({
+    required this.logoAsset,
+    required this.label,
+    required this.color,
+  });
 
-  final String asset;
+  final String logoAsset;
   final String label;
+  final Color color;
 
   @override
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
 
-    return Expanded(
-      child: Container(
-        height: 84,
-        decoration: BoxDecoration(
-          color: const Color(0xFFF2F6FF),
-          borderRadius: BorderRadius.circular(14),
-          border: Border.all(color: ReferencePalette.border),
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            TechIcon(asset: asset, size: 30),
-            const SizedBox(height: 4),
-            Text(
-              label,
-              textAlign: TextAlign.center,
-              style: theme.textTheme.labelSmall?.copyWith(
-                color: ReferencePalette.textPrimary,
-                fontWeight: FontWeight.w700,
-              ),
+    return Container(
+      height: 114,
+      decoration: BoxDecoration(
+        color: const Color(0xFFF6FAFF),
+        borderRadius: BorderRadius.circular(18),
+        border: Border.all(color: ReferencePalette.border),
+      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          Container(
+            width: 56,
+            height: 56,
+            decoration: BoxDecoration(
+              color: color,
+              shape: BoxShape.circle,
+              border: Border.all(color: ReferencePalette.border),
             ),
-          ],
-        ),
+            child: Center(child: TechIcon(asset: logoAsset, size: 30)),
+          ),
+          const SizedBox(height: 6),
+          Text(
+            label,
+            textAlign: TextAlign.center,
+            style: theme.textTheme.labelSmall?.copyWith(
+              color: ReferencePalette.onSurface(context),
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+        ],
       ),
     );
   }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:jay2xcoder/presentation/shared/widgets/reference_kit.dart';
 
 class ProgressRing extends StatelessWidget {
   const ProgressRing({super.key, required this.value, required this.label});
@@ -19,20 +20,21 @@ class ProgressRing extends StatelessWidget {
         children: <Widget>[
           CircularProgressIndicator(
             value: safe,
-            strokeWidth: 10,
-            backgroundColor: theme.colorScheme.surfaceContainerHighest,
+            strokeWidth: 12,
+            color: ReferencePalette.accentStart,
+            backgroundColor: const Color(0xFFE2E8F0),
           ),
           Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Text(
                 '${(safe * 100).round()}%',
-                style: theme.textTheme.titleLarge?.copyWith(
-                  fontWeight: FontWeight.w700,
+                style: theme.textTheme.titleMedium?.copyWith(
+                  fontWeight: FontWeight.w600,
                 ),
               ),
               const SizedBox(height: 2),
-              Text(label, style: theme.textTheme.labelMedium),
+              Text(label, style: theme.textTheme.labelSmall),
             ],
           ),
         ],

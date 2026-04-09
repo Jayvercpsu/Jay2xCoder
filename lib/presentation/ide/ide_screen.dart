@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:jay2xcoder/presentation/shared/widgets/dev_background.dart';
 import 'package:jay2xcoder/presentation/shared/widgets/reference_kit.dart';
+import 'package:jay2xcoder/presentation/shared/widgets/stagger_reveal.dart';
 import 'package:jay2xcoder/providers/app_providers.dart';
 
 class IdeScreen extends ConsumerWidget {
@@ -57,40 +58,43 @@ class IdeScreen extends ConsumerWidget {
                   ...available.map(
                     (_MiniProject item) => Padding(
                       padding: const EdgeInsets.only(bottom: 10),
-                      child: ReferenceCard(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Text(
-                              item.title,
-                              style: theme.textTheme.titleSmall?.copyWith(
-                                color: ReferencePalette.textPrimary,
-                                fontWeight: FontWeight.w800,
+                      child: StaggerReveal(
+                        index: available.indexOf(item),
+                        child: ReferenceCard(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Text(
+                                item.title,
+                                style: theme.textTheme.titleSmall?.copyWith(
+                                  color: ReferencePalette.onSurface(context),
+                                  fontWeight: FontWeight.w800,
+                                ),
                               ),
-                            ),
-                            const SizedBox(height: 2),
-                            Text(
-                              item.difficulty,
-                              style: theme.textTheme.labelMedium?.copyWith(
-                                color: ReferencePalette.textMuted,
-                                fontWeight: FontWeight.w700,
+                              const SizedBox(height: 2),
+                              Text(
+                                item.difficulty,
+                                style: theme.textTheme.labelMedium?.copyWith(
+                                  color: ReferencePalette.onMuted(context),
+                                  fontWeight: FontWeight.w700,
+                                ),
                               ),
-                            ),
-                            const SizedBox(height: 4),
-                            Text(
-                              item.note,
-                              style: theme.textTheme.bodySmall?.copyWith(
-                                color: ReferencePalette.textMuted,
+                              const SizedBox(height: 4),
+                              Text(
+                                item.note,
+                                style: theme.textTheme.bodySmall?.copyWith(
+                                  color: ReferencePalette.onMuted(context),
+                                ),
                               ),
-                            ),
-                            const SizedBox(height: 10),
-                            ReferencePrimaryButton(
-                              label: 'Start Project',
-                              onPressed: () => context.push(
-                                '/ide/playground/${item.templateId}',
+                              const SizedBox(height: 10),
+                              ReferencePrimaryButton(
+                                label: 'Start Project',
+                                onPressed: () => context.push(
+                                  '/ide/playground/${item.templateId}',
+                                ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       ),
                     ),

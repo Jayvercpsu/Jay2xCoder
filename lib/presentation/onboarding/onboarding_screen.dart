@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
-import 'package:jay2xcoder/providers/app_providers.dart';
 import 'package:jay2xcoder/presentation/shared/widgets/reference_kit.dart';
+import 'package:jay2xcoder/providers/app_providers.dart';
 
 class OnboardingScreen extends ConsumerStatefulWidget {
   const OnboardingScreen({super.key});
@@ -14,11 +14,33 @@ class OnboardingScreen extends ConsumerStatefulWidget {
 
 class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
   bool _busy = false;
+  late final TextEditingController _nameController;
+
+  @override
+  void initState() {
+    super.initState();
+    _nameController = TextEditingController(
+      text: ref.read(appStateControllerProvider).learnerName,
+    );
+  }
+
+  @override
+  void dispose() {
+    _nameController.dispose();
+    super.dispose();
+  }
 
   Future<void> _finish() async {
     setState(() {
       _busy = true;
     });
+
+    final String name = _nameController.text.trim();
+    if (name.isNotEmpty) {
+      await ref
+          .read(appStateControllerProvider.notifier)
+          .updateLearnerName(name);
+    }
 
     await ref.read(appStateControllerProvider.notifier).completeOnboarding();
     if (!mounted) {
@@ -30,6 +52,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
   @override
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
+    final bool dark = theme.brightness == Brightness.dark;
 
     return Scaffold(
       body: ReferenceBackground(
@@ -47,29 +70,49 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                 ),
                 Expanded(
                   child: ReferenceCard(
-                    color: const Color(0xFFF3F8FF),
+                    color: dark
+                        ? const Color(0xFF111827)
+                        : const Color(0xFFF9FBFF),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
                         SvgPicture.asset(
-                          'assets/illustrations/online-learning.svg',
-                          height: 180,
+                          'assets/illustrations/splash_programming.svg',
+                          height: 190,
+                          fit: BoxFit.contain,
                         ),
-                        const SizedBox(height: 18),
+                        const SizedBox(height: 20),
                         Text(
                           'Welcome boss!',
                           style: theme.textTheme.headlineSmall?.copyWith(
-                            color: ReferencePalette.textPrimary,
-                            fontWeight: FontWeight.w800,
+                            color: dark
+                                ? Colors.white
+                                : ReferencePalette.onSurface(context),
+                            fontWeight: FontWeight.w600,
                           ),
                         ),
                         const SizedBox(height: 8),
                         Text(
-                          'Let\'s start your coding journey.',
+                          'What is your name?',
                           textAlign: TextAlign.center,
-                          style: theme.textTheme.titleMedium?.copyWith(
-                            color: ReferencePalette.textPrimary,
-                            fontWeight: FontWeight.w600,
+                          style: theme.textTheme.bodyMedium?.copyWith(
+                            color: dark
+                                ? Colors.white70
+                                : ReferencePalette.onMuted(context),
+                          ),
+                        ),
+                        const SizedBox(height: 10),
+                        TextField(
+                          controller: _nameController,
+                          textInputAction: TextInputAction.done,
+                          onSubmitted: (_) {
+                            if (!_busy) {
+                              _finish();
+                            }
+                          },
+                          decoration: const InputDecoration(
+                            hintText: 'Enter your name',
+                            prefixIcon: Icon(Icons.person_outline_rounded),
                           ),
                         ),
                       ],

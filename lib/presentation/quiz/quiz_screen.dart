@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:go_router/go_router.dart';
 import 'package:jay2xcoder/core/constants/progression_utils.dart';
 import 'package:jay2xcoder/core/extensions/l10n_extension.dart';
@@ -117,8 +118,9 @@ class _QuizScreenState extends ConsumerState<QuizScreen> {
                                 ),
                                 child: Text(
                                   currentQuestion.codeLine!,
-                                  style: theme.textTheme.bodyMedium?.copyWith(
-                                    fontFamily: 'monospace',
+                                  style: GoogleFonts.firaCode(
+                                    fontSize: 13,
+                                    color: theme.colorScheme.onSurface,
                                   ),
                                 ),
                               ),
